@@ -1,7 +1,9 @@
 import { JsYamlAllSchemas } from "@exabyte-io/code.js/dist/utils";
+// @ts-ignore
 import * as fs from "fs";
 import * as yaml from "js-yaml";
 import * as pointer from "json-pointer";
+// @ts-ignore
 import * as path from "path";
 
 declare const __dirname: string;
@@ -50,6 +52,10 @@ function buildRegexSchema({ filePath, parsedContent, _regexApplicationSchemas = 
     }
 }
 
+function writeSchemasToTarget(schema) {
+    fs.writeFileSync("./lib/schemas.json", JSON.stringify(schema, null, 2));
+}
+
 const pathes = getAllFilePaths(path.join(__dirname, "..", "assets"));
 
 pathes
@@ -59,3 +65,5 @@ pathes
     );
 
 console.log(regexApplicationSchemas);
+
+writeSchemasToTarget(regexApplicationSchemas);
