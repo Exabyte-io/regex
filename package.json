@@ -23,6 +23,7 @@
         "@exabyte-io/code.js": "2023.8.10-0",
         "@types/node": "^20.5.2",
         "js-yaml": "^4.1.0",
+        "json-pointer": "^0.6.2",
         "typescript": "^5.0.2"
     },
     "devDependencies": {
