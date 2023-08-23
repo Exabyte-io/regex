@@ -20,7 +20,9 @@
         "@babel/preset-typescript": "^7.22.5",
         "@babel/register": "^7.16.0",
         "@babel/runtime-corejs3": "7.16.8",
+        "@exabyte-io/code.js": "2023.8.10-0",
         "@types/node": "^20.5.2",
+        "js-yaml": "^4.1.0",
         "typescript": "^5.0.2"
     },
     "devDependencies": {
@@ -50,7 +52,7 @@
     },
     "scripts": {
         "build": "npx tsc src/js/index.ts",
-        "start": "node src/js/index.js",
+        "start": "npm run build && node src/js/index.js",
         "lint": "eslint --cache src/js tests/js && prettier --write src/js tests/js",
         "lint:fix": "eslint --fix --cache src/js tests/js && prettier --write src/js tests/js",
         "lint:staged": "lint-staged",
