@@ -8,7 +8,7 @@ _fingerprints:
   - ...
 
 control:
-  _format: !include assets/file/fortran_namelist.yml # matching generic namelist
+  _format: !include src/assets/file/fortran_namelist.yml # matching generic namelist
   calculation:
     regex: "..." # matching 'calculation' property of namelist content
     flags: ["g", "m", "i"]

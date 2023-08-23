@@ -1,0 +1,3 @@
+calculation:
+  regex: "..." # matching 'calculation' property of namelist content
+  flags: ["g", "m", "i"]

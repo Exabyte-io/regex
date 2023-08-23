@@ -1,27 +1,42 @@
+import { JsYamlAllSchemas } from "@exabyte-io/code.js/dist/utils";
 import * as fs from "fs";
+import * as yaml from "js-yaml";
 import * as path from "path";
+
+declare const __dirname: string;
 
 export function greet(name: string): string {
     return `Hello ${name}!`;
 }
 
-function getAllFilePaths(directoryPath, filePaths = []) {
-    const files = fs.readdirSync(directoryPath);
+function getAllFilePaths(directoryPath: string, filePaths: string[] = []) {
+    const filesPaths = fs.readdirSync(directoryPath);
 
-    for (const file of files) {
-        const filePath = path.join(directoryPath, file);
-        const stats = fs.statSync(filePath);
+    // eslint-disable-next-line no-restricted-syntax
+    for (const filePath of filesPaths) {
+        const fullPath = path.join(directoryPath, filePath);
+        const stats = fs.statSync(fullPath);
 
         if (stats.isFile()) {
-            filePaths.push(filePath);
+            filePaths.push(fullPath);
         } else if (stats.isDirectory()) {
-            getAllFilePaths(filePath, filePaths);
+            getAllFilePaths(fullPath, filePaths);
         }
     }
 
     return filePaths;
 }
 
+function parseRegexYamls(filePath) {
+    const fileContent = fs.readFileSync(filePath, "utf8");
+
+    const parsedContent = yaml.load(fileContent, { schema: JsYamlAllSchemas });
+
+    return parsedContent;
+}
+
 const pathes = getAllFilePaths(path.join(__dirname, "..", "..", "src", "assets"));
 
-console.log(pathes);
+const parsedFiles = pathes.map(parseRegexYamls);
+
+console.log(parsedFiles);
