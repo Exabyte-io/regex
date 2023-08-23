@@ -5,7 +5,6 @@ _fingerprints:
   - regex: "^&electrons"
     flags: ["g", "i"]
     isRequired: true
-  - ...
 
 control:
   _format: !include src/assets/file/fortran_namelist.yml # matching generic namelist
