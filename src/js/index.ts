@@ -1,6 +1,7 @@
 import { JsYamlAllSchemas } from "@exabyte-io/code.js/dist/utils";
 import * as fs from "fs";
 import * as yaml from "js-yaml";
+import * as pointer from "json-pointer";
 import * as path from "path";
 
 declare const __dirname: string;
@@ -32,11 +33,29 @@ function parseRegexYamls(filePath) {
 
     const parsedContent = yaml.load(fileContent, { schema: JsYamlAllSchemas });
 
-    return parsedContent;
+    return { filePath, parsedContent };
 }
 
-const pathes = getAllFilePaths(path.join(__dirname, "..", "..", "src", "assets"));
+const regexApplicationSchemas = {};
 
-const parsedFiles = pathes.map(parseRegexYamls);
+const assetsPath = path.join(__dirname, "..", "assets");
 
-console.log(parsedFiles);
+function buildRegexSchema({ filePath, parsedContent, _regexApplicationSchemas = {} }) {
+    const applicationFileRegexp = new RegExp(`${assetsPath}/file/applications/.*\\.yml`, "g");
+    if (filePath.match(applicationFileRegexp)) {
+        const directoryPath = path.dirname(filePath);
+        const [, applicationSubPath] = directoryPath.split("applications");
+
+        pointer.set(_regexApplicationSchemas, applicationSubPath, parsedContent);
+    }
+}
+
+const pathes = getAllFilePaths(path.join(__dirname, "..", "assets"));
+
+pathes
+    .map(parseRegexYamls)
+    .forEach((parsed) =>
+        buildRegexSchema({ ...parsed, _regexApplicationSchemas: regexApplicationSchemas }),
+    );
+
+console.log(regexApplicationSchemas);
