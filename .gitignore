@@ -19,6 +19,9 @@ lib64/
 parts/
 sdist/
 var/
+src/js/index.js
+src/js/parse.js
+src/js/schema.json
 wheels/
 share/python-wheels/
 *.egg-info/

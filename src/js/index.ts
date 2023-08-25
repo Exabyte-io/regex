@@ -12,7 +12,10 @@ export function greet(name: string): string {
     return `Hello ${name}!`;
 }
 
-function getAllFilePaths(directoryPath: string, filePaths: string[] = []) {
+export function getAllFilePaths(
+    directoryPath: string = path.join(__dirname, "..", "assets"),
+    filePaths: string[] = [],
+) {
     const filesPaths = fs.readdirSync(directoryPath);
 
     // eslint-disable-next-line no-restricted-syntax
@@ -30,7 +33,7 @@ function getAllFilePaths(directoryPath: string, filePaths: string[] = []) {
     return filePaths;
 }
 
-function parseRegexYamls(filePath) {
+export function parseRegexYamls(filePath: string) {
     const fileContent = fs.readFileSync(filePath, "utf8");
 
     const parsedContent = yaml.load(fileContent, { schema: JsYamlAllSchemas });
@@ -38,11 +41,17 @@ function parseRegexYamls(filePath) {
     return { filePath, parsedContent };
 }
 
-const regexApplicationSchemas = {};
-
 const assetsPath = path.join(__dirname, "..", "assets");
 
-function buildRegexSchema({ filePath, parsedContent, _regexApplicationSchemas = {} }) {
+export function buildRegexSchema({
+    filePath,
+    parsedContent,
+    _regexApplicationSchemas = {},
+}: {
+    filePath: string;
+    parsedContent: string;
+    _regexApplicationSchemas: object;
+}) {
     const applicationFileRegexp = new RegExp(`${assetsPath}/file/applications/.*\\.yml`, "g");
     if (filePath.match(applicationFileRegexp)) {
         const directoryPath = path.dirname(filePath);
@@ -52,18 +61,6 @@ function buildRegexSchema({ filePath, parsedContent, _regexApplicationSchemas = 
     }
 }
 
-function writeSchemasToTarget(schema) {
-    fs.writeFileSync("./lib/schemas.json", JSON.stringify(schema, null, 2));
+export function writeSchemasToTarget({ filePath, schema }: { filePath: string; schema: object }) {
+    fs.writeFileSync(path.resolve(filePath), JSON.stringify(schema));
 }
-
-const pathes = getAllFilePaths(path.join(__dirname, "..", "assets"));
-
-pathes
-    .map(parseRegexYamls)
-    .forEach((parsed) =>
-        buildRegexSchema({ ...parsed, _regexApplicationSchemas: regexApplicationSchemas }),
-    );
-
-console.log(regexApplicationSchemas);
-
-writeSchemasToTarget(regexApplicationSchemas);
