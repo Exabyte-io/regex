@@ -52,16 +52,16 @@
         "prettier": "^2.7.1"
     },
     "scripts": {
-        "build": "npx tsc src/js/index.ts",
-        "start": "npm run build && node src/js/index.js",
+        "build": "npx tsc src/js/*.ts --outDir lib/js",
+        "build:schema:lib": "node lib/js/parse.js",
+        "build:schema:src": "npx tsc src/js/*.ts && node src/js/parse.js",
         "lint": "eslint --cache src/js tests/js && prettier --write src/js tests/js",
         "lint:fix": "eslint --fix --cache src/js tests/js && prettier --write src/js tests/js",
         "lint:staged": "lint-staged",
-        "postinstall": "npm run transpile",
+        "postinstall": "npm run build; npm run build:schema:lib",
         "prepare": "node bootstrap.js",
         "prettier": "prettier --check src/js tests/js",
-        "test": "nyc --reporter=text mocha --recursive --bail tests/js",
-        "transpile": "mkdir -p lib; babel src/js --out-dir lib"
+        "test": "nyc --reporter=text mocha --recursive --bail tests/js"
     },
     "engines": {
         "node": ">=12.0.0"

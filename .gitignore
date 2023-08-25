@@ -21,7 +21,7 @@ sdist/
 var/
 src/js/index.js
 src/js/parse.js
-src/js/schema.json
+src/js/schemas.json
 wheels/
 share/python-wheels/
 *.egg-info/
