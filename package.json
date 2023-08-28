@@ -53,12 +53,12 @@
     },
     "scripts": {
         "build": "npx tsc src/js/*.ts --outDir lib/js",
-        "build:schema:lib": "node lib/js/parse.js",
-        "build:schema:src": "npx tsc src/js/*.ts && node src/js/parse.js",
+        "build:schema:prod": "node lib/js/parse.js",
+        "build:schema:dev": "npx tsc src/js/*.ts && node src/js/parse.js",
         "lint": "eslint --cache src/js tests/js && prettier --write src/js tests/js",
         "lint:fix": "eslint --fix --cache src/js tests/js && prettier --write src/js tests/js",
         "lint:staged": "lint-staged",
-        "postinstall": "npm run build; npm run build:schema:lib",
+        "postinstall": "npm run build; npm run build:schema:prod",
         "prepare": "node bootstrap.js",
         "prettier": "prettier --check src/js tests/js",
         "test": "nyc --reporter=text mocha --recursive --bail tests/js"
