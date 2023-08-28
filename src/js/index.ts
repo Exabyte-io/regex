@@ -8,10 +8,6 @@ import * as path from "path";
 
 declare const __dirname: string;
 
-export function greet(name: string): string {
-    return `Hello ${name}!`;
-}
-
 export function getAllFilePaths(
     directoryPath: string = path.join(__dirname, "..", "assets"),
     filePaths: string[] = [],
@@ -41,24 +37,26 @@ export function parseRegexYamls(filePath: string) {
     return { filePath, parsedContent };
 }
 
-const assetsPath = path.join(__dirname, "..", "assets");
-
 export function buildRegexSchema({
     filePath,
     parsedContent,
     _regexApplicationSchemas = {},
 }: {
     filePath: string;
-    parsedContent: string;
+    parsedContent: object;
     _regexApplicationSchemas: object;
 }) {
-    const applicationFileRegexp = new RegExp(`${assetsPath}/file/applications/.*\\.yml`, "g");
+    const applicationFileRegexp = /\/file\/applications\/.*\.yml/g;
+
     if (filePath.match(applicationFileRegexp)) {
+        console.log(`filePath ${filePath} matched applicationFileRegexp`);
         const directoryPath = path.dirname(filePath);
         const [, applicationSubPath] = directoryPath.split("applications");
 
         pointer.set(_regexApplicationSchemas, applicationSubPath, parsedContent);
     }
+
+    return _regexApplicationSchemas;
 }
 
 export function writeSchemasToTarget({ filePath, schema }: { filePath: string; schema: object }) {
