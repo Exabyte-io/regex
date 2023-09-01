@@ -46,12 +46,17 @@ export function buildRegexSchema({
     parsedContent: object;
     _regexApplicationSchemas: object;
 }) {
-    const applicationFileRegexp = /\/file\/applications\/.*\.yml/g;
+    const yamlFileRegexp = /\/file\/[a-zA-Z]*\/.*\.yml/g;
 
-    if (filePath.match(applicationFileRegexp)) {
-        console.log(`filePath ${filePath} matched applicationFileRegexp`);
+    if (filePath.match(yamlFileRegexp)) {
+        const categoryRegex = /\/file\/([^/]+)/;
+        const categoryMatch = filePath.match(categoryRegex);
+
+        if (categoryMatch === null || !categoryMatch.length) return;
+        console.log(`filePath ${filePath} matched ${categoryMatch[1]} FileRegexp`);
+
         const directoryPath = path.dirname(filePath);
-        const [, applicationSubPath] = directoryPath.split("applications");
+        const [, applicationSubPath] = directoryPath.split("/file");
 
         pointer.set(_regexApplicationSchemas, applicationSubPath, parsedContent);
     }
