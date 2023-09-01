@@ -1,3 +1,0 @@
-namelist:
-  regex: "NAMELIST (/(CASE|GRID)/)" # matching 'calculation' property of namelist content
-  flags: ["g", "m", "i"]
