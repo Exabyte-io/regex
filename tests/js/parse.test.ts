@@ -39,7 +39,9 @@ describe("parse tests", () => {
                 { regex: "^&electrons", flags: ["g", "i"], isRequired: true },
             ],
             control: {
-                _format: { calculation: { regex: "...", flags: ["g", "m", "i"] } },
+                _format: {
+                    namelist: { regex: "NAMELIST (/(CASE|GRID)/)", flags: ["g", "m", "i"] },
+                },
                 calculation: { regex: "...", flags: ["g", "m", "i"] },
             },
         });
@@ -63,7 +65,9 @@ describe("parse tests", () => {
                     { regex: "^&electrons", flags: ["g", "i"], isRequired: true },
                 ],
                 control: {
-                    _format: { calculation: { regex: "...", flags: ["g", "m", "i"] } },
+                    _format: {
+                        namelist: { regex: "NAMELIST (/(CASE|GRID)/)", flags: ["g", "m", "i"] },
+                    },
                     calculation: { regex: "...", flags: ["g", "m", "i"] },
                 },
             },
@@ -71,31 +75,33 @@ describe("parse tests", () => {
         });
 
         expect(updatedSchemas).to.be.eql({
-            espresso: {
-                "5.4.1": {
-                    "pw.x": {
-                        _fingerprints: [
-                            {
-                                flags: ["g", "i"],
-                                isRequired: true,
-                                regex: "^&control",
-                            },
-                            {
-                                flags: ["g", "i"],
-                                isRequired: true,
-                                regex: "^&electrons",
-                            },
-                        ],
-                        control: {
-                            _format: {
+            applications: {
+                espresso: {
+                    "5.4.1": {
+                        "pw.x": {
+                            _fingerprints: [
+                                {
+                                    flags: ["g", "i"],
+                                    isRequired: true,
+                                    regex: "^&control",
+                                },
+                                {
+                                    flags: ["g", "i"],
+                                    isRequired: true,
+                                    regex: "^&electrons",
+                                },
+                            ],
+                            control: {
+                                _format: {
+                                    namelist: {
+                                        flags: ["g", "m", "i"],
+                                        regex: "NAMELIST (/(CASE|GRID)/)",
+                                    },
+                                },
                                 calculation: {
                                     flags: ["g", "m", "i"],
                                     regex: "...",
                                 },
-                            },
-                            calculation: {
-                                flags: ["g", "m", "i"],
-                                regex: "...",
                             },
                         },
                     },
