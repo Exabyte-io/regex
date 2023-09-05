@@ -5,20 +5,14 @@ import { buildRegexSchema, getAllFilePaths, parseRegexYamls } from "../../src/js
 
 const assetsPaths = [
     "file/applications/espresso/5.4.1/pw.x/stdin.yml",
-    "file/applications/espresso/5.4.1/pw.x/stdout.yml",
-    "file/applications/espresso/7.2/pw.x/stdin.yml",
-    "file/applications/espresso/7.2/pw.x/stdout.yml",
-    "file/applications/vasp/5.4.1/pw.x/stdin.yml",
-    "file/applications/vasp/5.4.1/pw.x/stdout.yml",
-    "file/applications/vasp/7.2/pw.x/stdin.yml",
-    "file/applications/vasp/7.2/pw.x/stdout.yml",
+    "file/applications/espresso/7.1/pw.x/stdin.yml",
     "file/fortran_namelist.yml",
 ];
 describe("parse tests", () => {
     it("should get all file paths", () => {
         const filePaths = [];
         const allPaths = getAllFilePaths(path.join(__dirname, "..", "assets"), filePaths);
-        expect(allPaths.length).to.be.eql(9);
+        expect(allPaths.length).to.be.eql(3);
 
         allPaths.forEach((assetPath, index) => expect(assetPath).to.contain(assetsPaths[index]));
     });
@@ -40,7 +34,10 @@ describe("parse tests", () => {
             ],
             control: {
                 _format: {
-                    namelist: { regex: "NAMELIST (/(CASE|GRID)/)", flags: ["g", "m", "i"] },
+                    namelist: {
+                        regex: "($|&)[A-Z]+\\n(?:\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+)(?:\\n\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+))*)?\\s*\\/",
+                        flags: ["g", "m"],
+                    },
                 },
                 calculation: { regex: "...", flags: ["g", "m", "i"] },
             },

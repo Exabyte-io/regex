@@ -1,0 +1,88 @@
+{
+    "applications": {
+        "espresso": {
+            "5.4.1": {
+                "pw.x": {
+                    "_fingerprints": [
+                        {
+                            "regex": "^&control",
+                            "flags": [
+                                "g",
+                                "i"
+                            ],
+                            "isRequired": true
+                        },
+                        {
+                            "regex": "^&electrons",
+                            "flags": [
+                                "g",
+                                "i"
+                            ],
+                            "isRequired": true
+                        }
+                    ],
+                    "control": {
+                        "_format": {
+                            "namelist": {
+                                "regex": "($|&)[A-Z]+\\n(?:\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+)(?:\\n\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+))*)?\\s*\\/",
+                                "flags": [
+                                    "g",
+                                    "m"
+                                ]
+                            }
+                        },
+                        "calculation": {
+                            "regex": "...",
+                            "flags": [
+                                "g",
+                                "m",
+                                "i"
+                            ]
+                        }
+                    }
+                }
+            },
+            "7.1": {
+                "pw.x": {
+                    "_fingerprints": [
+                        {
+                            "regex": "^&control",
+                            "flags": [
+                                "g",
+                                "i"
+                            ],
+                            "isRequired": true
+                        },
+                        {
+                            "regex": "^&electrons",
+                            "flags": [
+                                "g",
+                                "i"
+                            ],
+                            "isRequired": true
+                        }
+                    ],
+                    "control": {
+                        "_format": {
+                            "namelist": {
+                                "regex": "($|&)[A-Z]+\\n(?:\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+)(?:\\n\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+))*)?\\s*\\/",
+                                "flags": [
+                                    "g",
+                                    "m"
+                                ]
+                            }
+                        },
+                        "calculation": {
+                            "regex": "...",
+                            "flags": [
+                                "g",
+                                "m",
+                                "i"
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
