@@ -9,5 +9,11 @@ _fingerprints:
 control:
   _format: !include src/assets/file/fortran_namelist.yml # matching generic namelist
   calculation:
-    regex: "..." # matching 'calculation' property of namelist content
-    flags: ["g", "m", "i"]
+    regex: calculation\s*=\s*'([^']+)'
+    flags: [ "g", "m", "i" ]
+  title:
+    regex: title\s*=\s*'([^']+)'
+    flags: [ "g", "m", "i" ]
+  restart_mode:
+    regex: restart_mode\s*=\s*'([^']+)'
+    flags: [ "g", "m", "i" ]

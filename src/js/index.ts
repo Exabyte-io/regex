@@ -52,7 +52,7 @@ export function buildRegexSchema({
         const categoryRegex = /\/file\/([^/]+)/;
         const categoryMatch = filePath.match(categoryRegex);
 
-        if (categoryMatch === null || !categoryMatch.length) return;
+        if (categoryMatch === null || !categoryMatch.length) return _regexApplicationSchemas;
         console.log(`filePath ${filePath} matched ${categoryMatch[1]} FileRegexp`);
 
         const directoryPath = path.dirname(filePath);
@@ -65,5 +65,5 @@ export function buildRegexSchema({
 }
 
 export function writeSchemasToTarget({ filePath, schema }: { filePath: string; schema: object }) {
-    fs.writeFileSync(path.resolve(filePath), JSON.stringify(schema));
+    fs.writeFileSync(path.resolve(filePath), JSON.stringify(schema, null, 4));
 }

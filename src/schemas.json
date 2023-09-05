@@ -32,7 +32,23 @@
                             }
                         },
                         "calculation": {
-                            "regex": "...",
+                            "regex": "calculation\\s*=\\s*'([^']+)'",
+                            "flags": [
+                                "g",
+                                "m",
+                                "i"
+                            ]
+                        },
+                        "title": {
+                            "regex": "title\\s*=\\s*'([^']+)'",
+                            "flags": [
+                                "g",
+                                "m",
+                                "i"
+                            ]
+                        },
+                        "restart_mode": {
+                            "regex": "restart_mode\\s*=\\s*'([^']+)'",
                             "flags": [
                                 "g",
                                 "m",

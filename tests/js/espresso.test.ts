@@ -7,19 +7,22 @@ import * as path from "path";
 import schemas from "../../src/schemas.json";
 
 describe("use espresso regexes", () => {
+    const espressoNamelistRegex = pointer.get(
+        schemas,
+        "/applications/espresso/5.4.1/pw.x/control/_format/namelist",
+    );
+
+    const nameListBlocksRegex = new RegExp(
+        espressoNamelistRegex.regex,
+        espressoNamelistRegex.flags.join(""),
+    );
+    const file = fs.readFileSync(
+        path.resolve("tests/fixtures/applications/espresso/5.4.1/pw.x"),
+        "utf8",
+    );
+
     it("should get namelist blocks", () => {
-        const espressoNamelistRegex = pointer.get(
-            schemas,
-            "/applications/espresso/5.4.1/pw.x/control/_format/namelist",
-        );
-
-        const regex = new RegExp(espressoNamelistRegex.regex, espressoNamelistRegex.flags.join(""));
-        const file = fs.readFileSync(
-            path.resolve("tests/fixtures/applications/espresso/5.4.1/pw.x"),
-            "utf8",
-        );
-
-        const nameListBlocks = file.match(regex);
+        const nameListBlocks = file.match(nameListBlocksRegex);
 
         expect(nameListBlocks.length).to.be.eql(5);
         expect(nameListBlocks[0]).to.be.eql(`&CONTROL
@@ -55,5 +58,24 @@ describe("use espresso regexes", () => {
 /`);
         expect(nameListBlocks[4]).to.be.eql(`&CELL
 /`);
+    });
+
+    it("should parse values from CONTROL block", () => {
+        const nameListBlocks = file.match(nameListBlocksRegex);
+        const controlBlock = nameListBlocks[0];
+        const regexObject = pointer.get(
+            schemas,
+            "/applications/espresso/5.4.1/pw.x/control/calculation",
+        );
+        const regexCalculation = new RegExp(
+            "calculation\\s*=\\s*'([^']+)'",
+            regexObject.flags.join(""),
+        );
+
+        const calculation = controlBlock.matchAll(regexCalculation);
+        const [calcluationLine, calculationValue] = Array.from(calculation)[0];
+
+        expect(calcluationLine).to.be.eql("calculation = 'scf'");
+        expect(calculationValue).to.be.eql("scf");
     });
 });

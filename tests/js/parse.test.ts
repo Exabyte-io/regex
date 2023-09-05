@@ -39,7 +39,9 @@ describe("parse tests", () => {
                         flags: ["g", "m"],
                     },
                 },
-                calculation: { regex: "...", flags: ["g", "m", "i"] },
+                calculation: { regex: "calculation\\s*=\\s*'([^']+)'", flags: ["g", "m", "i"] },
+                title: { regex: "title\\s*=\\s*'([^']+)'", flags: ["g", "m", "i"] },
+                restart_mode: { regex: "restart_mode\\s*=\\s*'([^']+)'", flags: ["g", "m", "i"] },
             },
         });
     });
@@ -63,9 +65,12 @@ describe("parse tests", () => {
                 ],
                 control: {
                     _format: {
-                        namelist: { regex: "NAMELIST (/(CASE|GRID)/)", flags: ["g", "m", "i"] },
+                        namelist: {
+                            regex: "($|&)[A-Z]+\\n(?:\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+)(?:\\n\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+))*)?\\s*\\/",
+                            flags: ["g", "m", "i"],
+                        },
                     },
-                    calculation: { regex: "...", flags: ["g", "m", "i"] },
+                    calculation: { regex: "calculation\\s*=\\s*'([^']+)'", flags: ["g", "m", "i"] },
                 },
             },
             _regexApplicationSchemas,
@@ -92,12 +97,12 @@ describe("parse tests", () => {
                                 _format: {
                                     namelist: {
                                         flags: ["g", "m", "i"],
-                                        regex: "NAMELIST (/(CASE|GRID)/)",
+                                        regex: "($|&)[A-Z]+\\n(?:\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+)(?:\\n\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+))*)?\\s*\\/",
                                     },
                                 },
                                 calculation: {
                                     flags: ["g", "m", "i"],
-                                    regex: "...",
+                                    regex: "calculation\\s*=\\s*'([^']+)'",
                                 },
                             },
                         },
