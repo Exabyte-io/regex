@@ -16,5 +16,5 @@ pathes
 
 writeSchemasToTarget({
     schema: regexApplicationSchemas,
-    filePath: path.resolve(__dirname, "..", "schemas.json"),
+    filePath: path.resolve(__dirname, "..", "..", "data", "schemas.json"),
 });
