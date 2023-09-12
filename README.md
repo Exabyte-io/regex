@@ -43,3 +43,54 @@ npm run build:schemas:dev
 1. Add new yamls for `stdin` and `stdout` to `assets/file/applications/<application_name>/<application_version>/<unit_name>/`
 2. Run `npm run build:schemas:dev` to generate new regex schemas for dev
 3. Add tests for newly added regex schemas
+
+## Usage
+
+1. Install dependency (list in `package.json` ar with `npm install`):
+
+```bash
+npm install @exabyte-io/regex
+```
+
+2. Import `schema.json` with compiled regexes in your code:
+
+```js
+import regexesSchema from "@exabyte-io/regex/data/schemas.json"
+```
+
+3. Use `regexesSchema` object to found needed regex based on application and version for example (you can use `json-pointer` to get needed path):
+
+```js
+import pointer from "json-pointer";
+
+const espressoNamelistRegex = pointer.get(
+    schemas,
+    "/applications/espresso/5.2.1/pw.x/control/_format/namelist",
+);
+
+const nameListBlocksRegex = new RegExp(
+    espressoNamelistRegex.regex,
+    espressoNamelistRegex.flags.join(""),
+);
+
+// getting namelist blocks
+const nameListBlocks = file.match(nameListBlocksRegex);
+const controlBlock = nameListBlocks[0];
+
+
+const regexObject = pointer.get(
+    schemas,
+    "/applications/espresso/5.2.1/pw.x/control/calculation",
+);
+const regexCalculation = new RegExp(
+    "calculation\\s*=\\s*'([^']+)'",
+    regexObject.flags.join(""),
+);
+
+// getting calculation param value
+const calculation = controlBlock.matchAll(regexCalculation);
+const [calcluationLine, calculationValue] = Array.from(calculation)[0];
+
+
+console.log({ calcluationLine, calculationValue })
+```
