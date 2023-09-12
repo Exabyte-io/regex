@@ -4,12 +4,12 @@ import pointer from "json-pointer";
 import * as path from "path";
 
 // @ts-ignore
-import schemas from "../../src/schemas.json";
+import schemas from "../../data/schemas.json";
 
 describe("use espresso regexes", () => {
     const espressoNamelistRegex = pointer.get(
         schemas,
-        "/applications/espresso/5.4.1/pw.x/control/_format/namelist",
+        "/applications/espresso/5.2.1/pw.x/control/_format/namelist",
     );
 
     const nameListBlocksRegex = new RegExp(
@@ -17,7 +17,7 @@ describe("use espresso regexes", () => {
         espressoNamelistRegex.flags.join(""),
     );
     const file = fs.readFileSync(
-        path.resolve("tests/fixtures/applications/espresso/5.4.1/pw.x"),
+        path.resolve("tests/fixtures/applications/espresso/5.2.1/pw.x"),
         "utf8",
     );
 
@@ -65,7 +65,7 @@ describe("use espresso regexes", () => {
         const controlBlock = nameListBlocks[0];
         const regexObject = pointer.get(
             schemas,
-            "/applications/espresso/5.4.1/pw.x/control/calculation",
+            "/applications/espresso/5.2.1/pw.x/control/calculation",
         );
         const regexCalculation = new RegExp(
             "calculation\\s*=\\s*'([^']+)'",

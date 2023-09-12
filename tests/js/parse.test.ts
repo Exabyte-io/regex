@@ -4,7 +4,7 @@ import * as path from "path";
 import { buildRegexSchema, getAllFilePaths, parseRegexYamls } from "../../src/js";
 
 const assetsPaths = [
-    "file/applications/espresso/5.4.1/pw.x/stdin.yml",
+    "file/applications/espresso/5.2.1/pw.x/stdin.yml",
     "file/applications/espresso/7.1/pw.x/stdin.yml",
     "file/fortran_namelist.yml",
 ];
@@ -22,7 +22,7 @@ describe("parse tests", () => {
             __dirname,
             "..",
             "assets",
-            "file/applications/espresso/5.4.1/pw.x/stdin.yml",
+            "file/applications/espresso/5.2.1/pw.x/stdin.yml",
         );
         const regexObject = parseRegexYamls(filePath);
 
@@ -51,7 +51,7 @@ describe("parse tests", () => {
             __dirname,
             "..",
             "assets",
-            "file/applications/espresso/5.4.1/pw.x/stdin.yml",
+            "file/applications/espresso/5.2.1/pw.x/stdin.yml",
         );
 
         const _regexApplicationSchemas = {};
@@ -79,7 +79,7 @@ describe("parse tests", () => {
         expect(updatedSchemas).to.be.eql({
             applications: {
                 espresso: {
-                    "5.4.1": {
+                    "5.2.1": {
                         "pw.x": {
                             _fingerprints: [
                                 {

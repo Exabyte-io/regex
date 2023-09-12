@@ -52,7 +52,7 @@
         "prettier": "^2.7.1"
     },
     "scripts": {
-        "build": "npx tsc src/js/*.ts --outDir lib/js",
+        "build": "rm -rf lib/assets/* && npx tsc src/js/*.ts --outDir lib/js && cp -r src/assets lib/ && npm run build:schema:prod",
         "build:schema:prod": "node lib/js/parse.js",
         "build:schema:dev": "npx tsc src/js/*.ts && node src/js/parse.js",
         "lint": "eslint --cache src/js tests/js && prettier --write src/js tests/js",
