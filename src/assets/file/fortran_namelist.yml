@@ -1,7 +1,7 @@
 namelist:
   # ($|&): This part (?:$|&) is a non-capturing group (?: ... ) that matches either the end of the line ($) or an ampersand (&). This is used to ensure that the match starts either at the beginning of a line or after an ampersand, which is common in block headers like "&CONTROL".
   # 
-  # [A-Z]+: This part [A-Z]+ matches one or more uppercase letters. It is used to match the block name, which typically consists of uppercase letters.
+  # {{BLOCK_NAME}}: This part is template string to be replaced in final regex. It is used to match the block name, which typically could contain one of values enumerated in BLOCK_NAME param.
   # 
   # \n: This part matches a newline character, signifying the end of the block header and the start of the block content.
   # 
@@ -19,5 +19,12 @@ namelist:
   # (?:\n\s+[A-Za-z_]+\s*=\s*(?:['"].*?['"]|[^\/\n]+))*: This part allows for multiple parameter assignments within the block. It matches zero or more occurrences of a parameter assignment pattern.
   # 
   # \s*\/: This part matches the closing slash / that signifies the end of the block.
-  regex: ($|&)[A-Z]+\n(?:\s+[A-Za-z_]+\s*=\s*(?:['"].*?['"]|[^\/\n]+)(?:\n\s+[A-Za-z_]+\s*=\s*(?:['"].*?['"]|[^\/\n]+))*)?\s*\/
+  regex: ($|&){{BLOCK_NAME}}\n(?:\s+[A-Za-z_]+\s*=\s*(?:['"].*?['"]|[^\/\n]+)(?:\n\s+[A-Za-z_]+\s*=\s*(?:['"].*?['"]|[^\/\n]+))*)?\s*\/
   flags: ["g", "m"]
+  params:
+    BLOCK_NAME:
+      - "CONTROL"
+      - "ELECTRONS"
+      - "IONS"
+      - "CELL"
+      - "SYSTEM"

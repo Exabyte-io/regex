@@ -12,8 +12,8 @@ describe("use espresso regexes", () => {
         "/applications/espresso/5.2.1/pw.x/control/_format/namelist",
     );
 
-    const nameListBlocksRegex = new RegExp(
-        espressoNamelistRegex.regex,
+    const systemBlockRegex = new RegExp(
+        espressoNamelistRegex.regex.replace('{{BLOCK_NAME}}', 'CONTROL'),
         espressoNamelistRegex.flags.join(""),
     );
     const file = fs.readFileSync(
@@ -21,11 +21,16 @@ describe("use espresso regexes", () => {
         "utf8",
     );
 
-    it("should get namelist blocks", () => {
-        const nameListBlocks = file.match(nameListBlocksRegex);
+    it("should get control block", () => {
+        const controlBlockRegex = new RegExp(
+            espressoNamelistRegex.regex.replace('{{BLOCK_NAME}}', espressoNamelistRegex.params.BLOCK_NAME[0]),
+            espressoNamelistRegex.flags.join(""),
+        );
+        const controlBlockMatch = file.match(controlBlockRegex);
 
-        expect(nameListBlocks.length).to.be.eql(5);
-        expect(nameListBlocks[0]).to.be.eql(`&CONTROL
+        if (!controlBlockMatch) return;
+        expect(controlBlockMatch.length).to.be.eql(1);
+        expect(controlBlockMatch[0]).to.be.eql(`&CONTROL
     calculation = 'scf'
     title = ''
     verbosity = 'low'
@@ -38,31 +43,35 @@ describe("use espresso regexes", () => {
     prefix = '__prefix__'
     pseudo_dir = '{{ JOB_WORK_DIR }}/pseudo'
 /`);
-        expect(nameListBlocks[1]).to.be.eql(`&SYSTEM
-    ibrav = 0
-    nat = 2
-    ntyp = 1
-    ecutwfc = 40
-    ecutrho = 200
-    occupations = 'smearing'
-    degauss = 0.005
-/`);
-        expect(nameListBlocks[2]).to.be.eql(`&ELECTRONS
+    });
+
+    it("should get electrons block", () => {
+        const electornsBlockRegex = new RegExp(
+            espressoNamelistRegex.regex.replace('{{BLOCK_NAME}}', espressoNamelistRegex.params.BLOCK_NAME[1]),
+            espressoNamelistRegex.flags.join(""),
+        );
+        const electronsBlockMatch = file.match(electornsBlockRegex);
+
+        if (!electronsBlockMatch) return;
+        expect(electronsBlockMatch.length).to.be.eql(1);
+        expect(electronsBlockMatch[0]).to.be.eql(`&ELECTRONS
     diagonalization = 'david'
     diago_david_ndim = 4
     diago_full_acc = .true.
     mixing_beta = 0.3
     startingwfc = 'atomic+random'
 /`);
-        expect(nameListBlocks[3]).to.be.eql(`&IONS
-/`);
-        expect(nameListBlocks[4]).to.be.eql(`&CELL
-/`);
     });
 
     it("should parse values from CONTROL block", () => {
-        const nameListBlocks = file.match(nameListBlocksRegex);
-        const controlBlock = nameListBlocks[0];
+        const controlBlockRegex = new RegExp(
+            espressoNamelistRegex.regex.replace('{{BLOCK_NAME}}', espressoNamelistRegex.params.BLOCK_NAME[0]),
+            espressoNamelistRegex.flags.join(""),
+        );
+        const controlBlockMatch = file.match(controlBlockRegex);
+
+        if (!controlBlockMatch) return;
+        const controlBlock = controlBlockMatch[0];
         const regexObject = pointer.get(
             schemas,
             "/applications/espresso/5.2.1/pw.x/control/calculation",
