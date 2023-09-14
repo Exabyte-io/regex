@@ -6,9 +6,9 @@ import { buildRegexSchema, getAllFilePaths, parseRegexYamls, writeSchemasToTarge
 declare const __dirname: string;
 const regexApplicationSchemas = {};
 
-const pathes = getAllFilePaths();
+const paths = getAllFilePaths();
 
-pathes
+paths
     .map(parseRegexYamls)
     .forEach((parsed) =>
         buildRegexSchema({ ...parsed, _regexApplicationSchemas: regexApplicationSchemas }),
