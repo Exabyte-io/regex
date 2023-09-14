@@ -68,14 +68,20 @@ const espressoNamelistRegex = pointer.get(
     "/applications/espresso/5.2.1/pw.x/control/_format/namelist",
 );
 
-const nameListBlocksRegex = new RegExp(
-    espressoNamelistRegex.regex,
+// _format/namelist contains regex with template string
+// available templates for regex should be enumerated in params section
+// name of param define template string to replace
+// possible values will be enumerated as value of param
+// "params":{"BLOCK_NAME":["CONTROL","ELECTRONS","IONS","CELL","SYSTEM"]}
+
+const controlBlockRegex = new RegExp(
+    espressoNamelistRegex.regex.replace('{{BLOCK_NAME}}', 'CONTROL'),
     espressoNamelistRegex.flags.join(""),
 );
 
 // getting namelist blocks
-const nameListBlocks = file.match(nameListBlocksRegex);
-const controlBlock = nameListBlocks[0];
+const controlBlocksMatch = file.match(controlBlockRegex);
+const controlBlock = controlBlocksMatch[0];
 
 
 const regexObject = pointer.get(
