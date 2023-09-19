@@ -43,7 +43,7 @@ export function buildRegexSchema({
     _regexApplicationSchemas = {},
 }: {
     filePath: string;
-    parsedContent: object;
+    parsedContent: unknown;
     _regexApplicationSchemas: object;
 }) {
     const yamlFileRegexp = /\/file\/[a-zA-Z]*\/.*\.yml/g;
