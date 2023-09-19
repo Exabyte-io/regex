@@ -12,10 +12,6 @@ describe("use espresso regexes", () => {
         "/applications/espresso/5.2.1/pw.x/control/_format/namelist",
     );
 
-    const systemBlockRegex = new RegExp(
-        espressoNamelistRegex.regex.replace('{{BLOCK_NAME}}', 'CONTROL'),
-        espressoNamelistRegex.flags.join(""),
-    );
     const file = fs.readFileSync(
         path.resolve("tests/fixtures/applications/espresso/5.2.1/pw.x"),
         "utf8",
@@ -23,7 +19,10 @@ describe("use espresso regexes", () => {
 
     it("should get control block", () => {
         const controlBlockRegex = new RegExp(
-            espressoNamelistRegex.regex.replace('{{BLOCK_NAME}}', espressoNamelistRegex.params.BLOCK_NAME[0]),
+            espressoNamelistRegex.regex.replace(
+                "{{BLOCK_NAME}}",
+                espressoNamelistRegex.params.BLOCK_NAME[0],
+            ),
             espressoNamelistRegex.flags.join(""),
         );
         const controlBlockMatch = file.match(controlBlockRegex);
@@ -47,7 +46,10 @@ describe("use espresso regexes", () => {
 
     it("should get electrons block", () => {
         const electornsBlockRegex = new RegExp(
-            espressoNamelistRegex.regex.replace('{{BLOCK_NAME}}', espressoNamelistRegex.params.BLOCK_NAME[1]),
+            espressoNamelistRegex.regex.replace(
+                "{{BLOCK_NAME}}",
+                espressoNamelistRegex.params.BLOCK_NAME[1],
+            ),
             espressoNamelistRegex.flags.join(""),
         );
         const electronsBlockMatch = file.match(electornsBlockRegex);
@@ -65,7 +67,10 @@ describe("use espresso regexes", () => {
 
     it("should parse values from CONTROL block", () => {
         const controlBlockRegex = new RegExp(
-            espressoNamelistRegex.regex.replace('{{BLOCK_NAME}}', espressoNamelistRegex.params.BLOCK_NAME[0]),
+            espressoNamelistRegex.regex.replace(
+                "{{BLOCK_NAME}}",
+                espressoNamelistRegex.params.BLOCK_NAME[0],
+            ),
             espressoNamelistRegex.flags.join(""),
         );
         const controlBlockMatch = file.match(controlBlockRegex);

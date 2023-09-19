@@ -35,7 +35,7 @@ describe("parse tests", () => {
             control: {
                 _format: {
                     namelist: {
-                        regex: "($|&){{BLOCK_NAME}}\\n(?:\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+)(?:\\n\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+))*)?\\s*\\/",
+                        regex: "(\\$|&){{BLOCK_NAME}}\\n(?:\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+)(?:\\n\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+))*)?\\s*\\/",
                         flags: ["g", "m"],
                         params: {
                             BLOCK_NAME: ["CONTROL", "ELECTRONS", "IONS", "CELL", "SYSTEM"],
@@ -73,7 +73,7 @@ describe("parse tests", () => {
                             flags: ["g", "m", "i"],
                             params: {
                                 BLOCK_NAME: ["CONTROL", "SYSTEM", "ELECTRONS", "IONS", "CELL"],
-                            }
+                            },
                         },
                     },
                     calculation: { regex: "calculation\\s*=\\s*'([^']+)'", flags: ["g", "m", "i"] },
@@ -105,7 +105,13 @@ describe("parse tests", () => {
                                         flags: ["g", "m", "i"],
                                         regex: "($|&){{BLOCK_NAME}}\\n(?:\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+)(?:\\n\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+))*)?\\s*\\/",
                                         params: {
-                                            BLOCK_NAME: ["CONTROL", "SYSTEM", "ELECTRONS", "IONS", "CELL"],
+                                            BLOCK_NAME: [
+                                                "CONTROL",
+                                                "SYSTEM",
+                                                "ELECTRONS",
+                                                "IONS",
+                                                "CELL",
+                                            ],
                                         },
                                     },
                                 },
