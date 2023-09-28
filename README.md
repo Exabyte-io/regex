@@ -89,7 +89,7 @@ const regexObject = pointer.get(
     "/applications/espresso/5.2.1/pw.x/control/calculation",
 );
 const regexCalculation = new RegExp(
-    "calculation\\s*=\\s*'([^']+)'",
+    regexObject.regex,
     regexObject.flags.join(""),
 );
 

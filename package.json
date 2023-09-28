@@ -20,7 +20,7 @@
         "@babel/preset-typescript": "^7.22.5",
         "@babel/register": "^7.16.0",
         "@babel/runtime-corejs3": "7.16.8",
-        "@exabyte-io/code.js": "git+https://github.com/Exabyte-io/code.js.git#feature/SOF-6862",
+        "@exabyte-io/code.js": "2023.9.28-0",
         "@types/node": "^20.5.2",
         "js-yaml": "^4.1.0",
         "json-pointer": "^0.6.2",
