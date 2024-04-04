@@ -4,9 +4,9 @@
     "description": "Repository housing various regular expressions to be used in packages such as ExPrESS or the new parsing package.",
     "author": "Exabyte Inc.",
     "license": "ISC",
-    "main": "lib/index.js",
+    "main": "dist/index.js",
     "files": [
-        "/lib",
+        "/dist",
         "/src/js",
         "tsconfig.json"
     ],
@@ -52,8 +52,8 @@
         "prettier": "^2.7.1"
     },
     "scripts": {
-        "build": "rm -rf lib/assets/* && npx tsc src/js/*.ts --outDir lib/js && cp -r src/assets lib/ && npm run build:schema:prod",
-        "build:schema:prod": "node lib/js/parse.js",
+        "build": "rm -rf dist/assets/* && npx tsc src/js/*.ts --outDir dist/js && cp -r src/assets dist/ && npm run build:schema:prod",
+        "build:schema:prod": "node dist/js/parse.js",
         "build:schema:dev": "npx tsc src/js/*.ts && node src/js/parse.js",
         "lint": "eslint --cache src/js tests/js && prettier --write src/js tests/js",
         "lint:fix": "eslint --fix --cache src/js tests/js && prettier --write src/js tests/js",

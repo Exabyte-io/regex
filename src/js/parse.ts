@@ -1,4 +1,5 @@
 // @ts-ignore
+import * as fs from "fs";
 import * as path from "path";
 
 import { buildRegexSchema, getAllFilePaths, parseRegexYamls, writeSchemasToTarget } from "./index";
@@ -18,3 +19,11 @@ writeSchemasToTarget({
     schema: regexApplicationSchemas,
     filePath: path.resolve(__dirname, "..", "..", "data", "schemas.json"),
 });
+
+fs.writeFileSync(
+    "./src/py/mat3ra/regex/data/schemas.py",
+    ["import json", `SCHEMAS = json.loads(r'''${JSON.stringify(regexApplicationSchemas)}''')`].join(
+        "\n",
+    ),
+    "utf8",
+);
