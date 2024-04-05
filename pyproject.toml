@@ -4,9 +4,9 @@ dynamic = ["version"]
 description = "Repository housing various regular expressions to be used in packages such as ExPrESS or the new parsing package."
 readme = "README.md"
 requires-python = ">=3.8"
-license = {file = "LICENSE.md"}
+license = { file = "LICENSE.md" }
 authors = [
-    {name = "Exabyte Inc.", email = "info@mat3ra.com"}
+    { name = "Exabyte Inc.", email = "info@mat3ra.com" }
 ]
 classifiers = [
     "Programming Language :: Python",
@@ -20,8 +20,19 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pre-commit", "black", "ruff", "isort", "mypy", "pip-tools"]
-test = ["coverage", "mock"]
+dev = [
+    "pre-commit",
+    "black",
+    "ruff",
+    "isort",
+    "mypy",
+    "pip-tools",
+]
+test = [
+    "coverage",
+    "mock",
+    "pytest",
+]
 
 # Entrypoint scripts can be defined here, see examples below.
 [project.scripts]

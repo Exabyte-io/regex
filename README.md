@@ -4,7 +4,7 @@
 
 1. Install package adding to package.json:
     ```json
-    
+
     "dependencies": {
         "@exabyte-io/regex": "2023.9.1"
     }
@@ -24,7 +24,7 @@ Or using npm:
    const calculationPattern = regexSchemas.espresso["5.8.1"].["pw.x"].calculation;
    const regex = new RegExp(calculationPattern.regex, calculationPattern.flags.join("));
    ```
-   
+
 ## Development
 To run tests:
 ```bash
