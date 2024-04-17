@@ -1,4 +1,4 @@
-import { JsYamlAllSchemas } from "@exabyte-io/code.js/dist/utils";
+import { JsYamlAllSchemas } from "@mat3ra/code/dist/utils";
 // @ts-ignore
 import * as fs from "fs";
 import * as yaml from "js-yaml";
