@@ -28,10 +28,16 @@ dev = [
     "mypy",
     "pip-tools",
 ]
-test = [
+tests = [
     "coverage",
     "mock",
     "pytest",
+    "pytest-cov",
+    "mat3ra-fixtures",
+]
+all = [
+    "mat3ra-regex[dev]",
+    "mat3ra-regex[tests]",
 ]
 
 # Entrypoint scripts can be defined here, see examples below.
