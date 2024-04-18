@@ -1,8 +1,12 @@
-// @ts-ignore
 import * as fs from "fs";
 import * as path from "path";
 
-import { buildRegexSchema, getAllFilePaths, parseRegexYamls, writeSchemasToTarget } from "./index";
+import {
+    buildRegexSchema,
+    getAllFilePaths,
+    loadRegexYAMLs,
+    writeSchemasToTarget,
+} from "./functions";
 
 declare const __dirname: string;
 const regexApplicationSchemas = {};
@@ -10,8 +14,10 @@ const regexApplicationSchemas = {};
 const paths = getAllFilePaths();
 
 paths
-    .map(parseRegexYamls)
-    .forEach((parsed) =>
+    .map(loadRegexYAMLs)
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .forEach((parsed: any) =>
         buildRegexSchema({ ...parsed, _regexApplicationSchemas: regexApplicationSchemas }),
     );
 

@@ -1,9 +1,8 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { JsYamlAllSchemas } from "@mat3ra/code/dist/js/utils";
-// @ts-ignore
 import * as fs from "fs";
 import * as yaml from "js-yaml";
 import * as pointer from "json-pointer";
-// @ts-ignore
 import * as path from "path";
 
 declare const __dirname: string;
@@ -29,11 +28,9 @@ export function getAllFilePaths(
     return filePaths;
 }
 
-export function parseRegexYamls(filePath: string) {
+export function loadRegexYAMLs(filePath: string) {
     const fileContent = fs.readFileSync(filePath, "utf8");
-
     const parsedContent = yaml.load(fileContent, { schema: JsYamlAllSchemas });
-
     return { filePath, parsedContent };
 }
 
