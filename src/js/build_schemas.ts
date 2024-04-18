@@ -28,8 +28,10 @@ writeSchemasToTarget({
 
 fs.writeFileSync(
     "./src/py/mat3ra/regex/data/schemas.py",
-    ["import json", `SCHEMAS = json.loads(r'''${JSON.stringify(regexApplicationSchemas)}''')`].join(
-        "\n",
-    ),
+    [
+        "import json",
+        `SCHEMAS = json.loads(r'''${JSON.stringify(regexApplicationSchemas)}''')`,
+        "",
+    ].join("\n"),
     "utf8",
 );

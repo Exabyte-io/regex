@@ -57,8 +57,8 @@
     },
     "scripts": {
         "build": "rm -rf dist/assets/* && npx tsc src/js/*.ts --outDir dist/js && cp -r src/assets dist/ && npm run build:schema:prod",
-        "build:schema:prod": "node dist/js/parse.js",
-        "build:schema:dev": "npx tsc src/js/*.ts && node src/js/parse.js",
+        "build:schema:prod": "node dist/js/build_schemas.js",
+        "build:schema:dev": "npx tsc src/js/*.ts && node src/js/build_schemas.js",
         "lint": "eslint --cache src/js tests/js && prettier --write src/js tests/js",
         "lint:fix": "eslint --fix --cache src/js tests/js && prettier --write src/js tests/js",
         "lint:staged": "lint-staged",

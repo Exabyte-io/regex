@@ -62,5 +62,5 @@ export function buildRegexSchema({
 }
 
 export function writeSchemasToTarget({ filePath, schema }: { filePath: string; schema: object }) {
-    fs.writeFileSync(path.resolve(filePath), JSON.stringify(schema));
+    fs.writeFileSync(path.resolve(filePath), JSON.stringify(schema) + "\n", "utf8");
 }
