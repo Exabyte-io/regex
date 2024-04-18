@@ -3,7 +3,6 @@ import * as fs from "fs";
 import pointer from "json-pointer";
 import * as path from "path";
 
-// @ts-ignore
 import schemas from "../../data/schemas.json";
 
 describe("use espresso regexes", () => {

@@ -1,9 +1,8 @@
-import { JsYamlAllSchemas } from "@exabyte-io/code.js/dist/utils";
-// @ts-ignore
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { JsYamlAllSchemas } from "@mat3ra/code/dist/js/utils";
 import * as fs from "fs";
 import * as yaml from "js-yaml";
 import * as pointer from "json-pointer";
-// @ts-ignore
 import * as path from "path";
 
 declare const __dirname: string;
@@ -29,11 +28,9 @@ export function getAllFilePaths(
     return filePaths;
 }
 
-export function parseRegexYamls(filePath: string) {
+export function loadRegexYAMLs(filePath: string) {
     const fileContent = fs.readFileSync(filePath, "utf8");
-
     const parsedContent = yaml.load(fileContent, { schema: JsYamlAllSchemas });
-
     return { filePath, parsedContent };
 }
 
@@ -65,5 +62,5 @@ export function buildRegexSchema({
 }
 
 export function writeSchemasToTarget({ filePath, schema }: { filePath: string; schema: object }) {
-    fs.writeFileSync(path.resolve(filePath), JSON.stringify(schema));
+    fs.writeFileSync(path.resolve(filePath), JSON.stringify(schema) + "\n", "utf8");
 }

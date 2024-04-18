@@ -6,7 +6,9 @@ repos:
       - id: black
       - id: isort
       - id: mypy
-      - id: check-yaml
+      # TODO: figure out how to allow for the custom tags like !Ref and re-enable this
+      # https://github.com/pre-commit/pre-commit-hooks/issues/103
+      # - id: check-yaml
       - id: end-of-file-fixer
       - id: trailing-whitespace
   - repo: local
