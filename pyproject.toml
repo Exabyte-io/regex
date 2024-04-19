@@ -1,7 +1,7 @@
 [project]
-name = "regex"
+name = "mat3ra-regex"
 dynamic = ["version"]
-description = "Repository housing various regular expressions to be used in packages such as ExPrESS or the new parsing package."
+description = "Mat3ra Regex."
 readme = "README.md"
 requires-python = ">=3.8"
 license = { file = "LICENSE.md" }
