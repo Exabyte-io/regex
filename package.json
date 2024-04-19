@@ -1,7 +1,19 @@
 {
-    "name": "regex",
+    "name": "@mat3ra/regex",
     "version": "0.0.0",
-    "description": "Repository housing various regular expressions to be used in packages such as ExPrESS or the new parsing package.",
+    "description": "Repository housing various regular expressions.",
+    "scripts": {
+        "build": "rm -rf dist/assets/* && npx tsc src/js/*.ts --outDir dist/js && cp -r src/assets dist/ && npm run build:schema:prod",
+        "build:schema:prod": "node dist/js/build_schemas.js",
+        "build:schema:dev": "npx tsc src/js/*.ts && node src/js/build_schemas.js",
+        "lint": "eslint --cache src/js tests/js && prettier --write src/js tests/js",
+        "lint:fix": "eslint --fix --cache src/js tests/js && prettier --write src/js tests/js",
+        "lint:staged": "lint-staged",
+        "prepare": "node bootstrap.js",
+        "prettier": "prettier --check src/js tests/js",
+        "test": "nyc --reporter=text mocha --recursive --bail tests/js",
+        "transpile": "tsc -p tsconfig-transpile.json"
+    },
     "author": "Exabyte Inc.",
     "license": "ISC",
     "main": "dist/index.js",
@@ -55,20 +67,8 @@
         "ts-node": "^10.9.1",
         "typescript": "^4.5.5"
     },
-    "scripts": {
-        "build": "rm -rf dist/assets/* && npx tsc src/js/*.ts --outDir dist/js && cp -r src/assets dist/ && npm run build:schema:prod",
-        "build:schema:prod": "node dist/js/build_schemas.js",
-        "build:schema:dev": "npx tsc src/js/*.ts && node src/js/build_schemas.js",
-        "lint": "eslint --cache src/js tests/js && prettier --write src/js tests/js",
-        "lint:fix": "eslint --fix --cache src/js tests/js && prettier --write src/js tests/js",
-        "lint:staged": "lint-staged",
-        "prepare": "node bootstrap.js",
-        "prettier": "prettier --check src/js tests/js",
-        "test": "nyc --reporter=text mocha --recursive --bail tests/js",
-        "transpile": "tsc -p tsconfig-transpile.json"
-    },
     "engines": {
-        "node": ">=12.0.0"
+        "node": ">=14.0.0"
     },
     "lint-staged": {
         "*.{js,ts,tsx}": "eslint --cache --fix",
