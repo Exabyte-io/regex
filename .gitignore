@@ -169,6 +169,8 @@ cython_debug/
 node_modules/
 .eslintcache
 .nyc_output/
+src/js/build_schemas.js
+src/js/functions.js
 
 ########### GENERAL #############
 *.DS_Store
