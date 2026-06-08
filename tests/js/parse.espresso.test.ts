@@ -3,7 +3,7 @@ import * as fs from "fs";
 import pointer from "json-pointer";
 import * as path from "path";
 
-import schemas from "../../data/schemas.json" with { type: "json" };
+const schemas = JSON.parse(fs.readFileSync(path.resolve("data/schemas.json"), "utf8"));
 
 describe("use espresso regexes", () => {
     const espressoNamelistRegex = pointer.get(
