@@ -3,17 +3,17 @@ import * as path from "path";
 
 import { buildRegexSchema, getAllFilePaths, loadRegexYAMLs } from "../../src/js/functions";
 
-const REFERENCE_PATH_TO_PWX_STDIN_YML = path.join(
+const REFERENCE_PATH_TO_PWIN_YML = path.join(
     __dirname,
     "..",
     "assets",
-    "file/applications/espresso/5.2.1/pw.x/stdin.yml",
+    "file/applications/espresso/pwin.yml",
 );
 
 const REFERENCE_ASSETS_PATHS = [
-    "file/applications/espresso/5.2.1/pw.x/stdin.yml",
-    "file/applications/espresso/7.1/pw.x/stdin.yml",
-    "file/fortran_namelist.yml",
+    "file/applications/espresso/pwin.yml",
+    "file/espresso_namelist.yml",
+    "file/primitives.yml",
 ];
 
 const REFERENCE_YAML_CONTENT = {
@@ -58,39 +58,7 @@ const REFERENCE_SCHEMA_CONTENT_INTERMEDIATE = {
 
 const REFERENCE_SCHEMA_CONTENT_FINAL = {
     applications: {
-        espresso: {
-            "5.2.1": {
-                "pw.x": {
-                    _fingerprints: [
-                        {
-                            flags: ["g", "i"],
-                            isRequired: true,
-                            regex: "^&control",
-                        },
-                        {
-                            flags: ["g", "i"],
-                            isRequired: true,
-                            regex: "^&electrons",
-                        },
-                    ],
-                    control: {
-                        _format: {
-                            namelist: {
-                                flags: ["g", "m", "i"],
-                                regex: "($|&){{BLOCK_NAME}}\\n(?:\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+)(?:\\n\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+))*)?\\s*\\/",
-                                params: {
-                                    BLOCK_NAME: ["CONTROL", "SYSTEM", "ELECTRONS", "IONS", "CELL"],
-                                },
-                            },
-                        },
-                        calculation: {
-                            flags: ["g", "m", "i"],
-                            regex: "calculation\\s*=\\s*'([^']+)'",
-                        },
-                    },
-                },
-            },
-        },
+        espresso: REFERENCE_SCHEMA_CONTENT_INTERMEDIATE,
     },
 };
 describe("build schema from assets tests", () => {
@@ -105,15 +73,15 @@ describe("build schema from assets tests", () => {
     });
 
     it("should load Regex YAML", () => {
-        const regexObject = loadRegexYAMLs(REFERENCE_PATH_TO_PWX_STDIN_YML);
-        expect(regexObject.filePath).to.be.eql(REFERENCE_PATH_TO_PWX_STDIN_YML);
+        const regexObject = loadRegexYAMLs(REFERENCE_PATH_TO_PWIN_YML);
+        expect(regexObject.filePath).to.be.eql(REFERENCE_PATH_TO_PWIN_YML);
         expect(regexObject.parsedContent).to.be.eql(REFERENCE_YAML_CONTENT);
     });
 
     it("should build Regex Schema", () => {
         const _regexApplicationSchemas = {};
         const updatedSchemas = buildRegexSchema({
-            filePath: REFERENCE_PATH_TO_PWX_STDIN_YML,
+            filePath: REFERENCE_PATH_TO_PWIN_YML,
             parsedContent: REFERENCE_SCHEMA_CONTENT_INTERMEDIATE,
             _regexApplicationSchemas,
         });
