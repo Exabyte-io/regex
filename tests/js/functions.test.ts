@@ -12,8 +12,8 @@ const REFERENCE_PATH_TO_PWIN_YML = path.join(
 
 const REFERENCE_ASSETS_PATHS = [
     "file/applications/espresso/pwin.yml",
-    "file/espresso_namelist.yml",
     "file/espresso_regex_dict.yml",
+    "file/fortran_namelist.yml",
     "file/primitives.yml",
 ];
 
