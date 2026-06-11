@@ -13,6 +13,7 @@ const REFERENCE_PATH_TO_PWIN_YML = path.join(
 const REFERENCE_ASSETS_PATHS = [
     "file/applications/espresso/pwin.yml",
     "file/espresso_namelist.yml",
+    "file/espresso_regex_dict.yml",
     "file/primitives.yml",
 ];
 
@@ -21,6 +22,12 @@ const REFERENCE_YAML_CONTENT = {
         { regex: "^&control", flags: ["g", "i"], isRequired: true },
         { regex: "^&electrons", flags: ["g", "i"], isRequired: true },
     ],
+    _regex_dict: {
+        namelist_block: {
+            regex: "&{{NAMELIST_NAME}}\\s*([\\s\\S]*?)\\/",
+            flags: ["i"],
+        },
+    },
     control: {
         _format: {
             namelist: {
@@ -65,7 +72,7 @@ describe("build schema from assets tests", () => {
     it("should get all file paths", () => {
         const filePaths: string[] | undefined = [];
         const allPaths = getAllFilePaths(path.join(__dirname, "..", "assets"), filePaths);
-        expect(allPaths.length).to.be.eql(3);
+        expect(allPaths.length).to.be.eql(4);
 
         allPaths.forEach((assetPath, index) =>
             expect(assetPath).to.contain(REFERENCE_ASSETS_PATHS[index]),

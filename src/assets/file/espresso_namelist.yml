@@ -22,8 +22,3 @@ namelist:
       - "IONS"
       - "CELL"
       - "SYSTEM"
-
-# Captures namelist block content between &NAME and /; {{NAMELIST_NAME}} is replaced at runtime.
-namelist_block:
-  regex: "&{{NAMELIST_NAME}}\\s*([\\s\\S]*?)\\/"
-  flags: ["i"]

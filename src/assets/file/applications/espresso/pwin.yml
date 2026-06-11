@@ -6,6 +6,8 @@ _fingerprints:
     flags: ["g", "i"]
     isRequired: true
 
+_regex_dict: !include src/assets/file/espresso_regex_dict.yml
+
 control:
   _format: !include src/assets/file/espresso_namelist.yml # matching generic namelist
   calculation:
