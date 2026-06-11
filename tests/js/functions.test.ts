@@ -26,6 +26,9 @@ const REFERENCE_YAML_CONTENT = {
         namelist_block: {
             regex: "&{{BLOCK_NAME}}\\s*([\\s\\S]*?)\\/",
             flags: ["i"],
+            params: {
+                BLOCK_NAME: ["CONTROL", "SYSTEM", "ELECTRONS", "IONS", "CELL", "FCP", "RISM"],
+            },
         },
     },
     control: {
