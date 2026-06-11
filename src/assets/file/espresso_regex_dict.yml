@@ -1,4 +1,4 @@
-# Captures namelist block content between &NAME and /; {{NAMELIST_NAME}} is replaced at runtime.
+# Captures namelist block content between &NAME and /; {{BLOCK_NAME}} is replaced at runtime.
 namelist_block:
-  regex: "&{{NAMELIST_NAME}}\\s*([\\s\\S]*?)\\/"
+  regex: "&{{BLOCK_NAME}}\\s*([\\s\\S]*?)\\/"
   flags: ["i"]

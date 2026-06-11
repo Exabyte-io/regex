@@ -24,7 +24,7 @@ const REFERENCE_YAML_CONTENT = {
     ],
     _regex_dict: {
         namelist_block: {
-            regex: "&{{NAMELIST_NAME}}\\s*([\\s\\S]*?)\\/",
+            regex: "&{{BLOCK_NAME}}\\s*([\\s\\S]*?)\\/",
             flags: ["i"],
         },
     },
