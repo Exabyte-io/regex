@@ -23,9 +23,17 @@ const REFERENCE_YAML_CONTENT = {
         { regex: "^&electrons", flags: ["g", "i"], isRequired: true },
     ],
     _regex_dict: {
+        kv_pair: {
+            flags: ["g", "i", "m"],
+            regex: "(\\w+)\\s*=\\s*([^,\\n/=]+)",
+        },
+        kv_pair_with_index: {
+            flags: ["g", "i", "m"],
+            regex: "(\\w+)\\s*\\(\\s*(\\d+)\\s*\\)\\s*=\\s*([^,\\n/]+)",
+        },
         namelist_block: {
             regex: "&{{BLOCK_NAME}}\\s*([\\s\\S]*?)\\/",
-            flags: ["i"],
+            flags: ["i", "m"],
             params: {
                 BLOCK_NAME: ["CONTROL", "SYSTEM", "ELECTRONS", "IONS", "CELL", "FCP", "RISM"],
             },

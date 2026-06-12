@@ -1,7 +1,7 @@
 # Captures namelist block content between &NAME and /; {{BLOCK_NAME}} is replaced at runtime.
 namelist_block:
   regex: "&{{BLOCK_NAME}}\\s*([\\s\\S]*?)\\/"
-  flags: ["i"]
+  flags: ["i", "m"]
   params:
     BLOCK_NAME:
       - "CONTROL"
@@ -11,3 +11,9 @@ namelist_block:
       - "CELL"
       - "FCP"
       - "RISM"
+kv_pair:
+  regex: '(\w+)\s*=\s*([^,\n/=]+)'
+  flags: ["g", "i", "m"]
+kv_pair_with_index:
+  regex: '(\w+)\s*\(\s*(\d+)\s*\)\s*=\s*([^,\n/]+)'
+  flags: ["g", "i", "m"]
