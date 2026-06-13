@@ -23,6 +23,13 @@ const REFERENCE_YAML_CONTENT = {
         { regex: "^&electrons", flags: ["g", "i"], isRequired: true },
     ],
     _regex_dict: {
+        cell_parameters_card: {
+            flags: ["i"],
+            params: {
+                UNIT: ["alat", "bohr", "angstrom"],
+            },
+            regex: "CELL_PARAMETERS\\s*[{(]?\\s*({{UNIT}})?\\s*[)}]?\\s*\\n([ \\t]*{{NUMBER_FLOAT_FORTRAN}}[ \\t]+{{NUMBER_FLOAT_FORTRAN}}[ \\t]+{{NUMBER_FLOAT_FORTRAN}}[ \\t]*\\n?){3})",
+        },
         kv_pair: {
             flags: ["g", "i", "m"],
             regex: "(\\w+)\\s*=\\s*([^,\\n/=]+)",
