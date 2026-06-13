@@ -46,17 +46,15 @@ atomic_positions_card:
   regex: !listToString
     - 'ATOMIC_POSITIONS\s*'
     - '[{(]?\s*'
-    - '{{UNIT}}?' # Capturing group 1: Matches the unit string explicitly defined in params (optional).
+    - '{{UNIT}}?'
     - '\s*[)}]?\s*\n'
-    - '(' # Start of capturing group 2: Matches the rows of atomic positions
+    - '('
     - '(?:'
     - '[ \t]*\w+' # Atom symbol
-    - '[ \t]+{{NUMBER_FLOAT_FORTRAN}}' # X position
-    - '[ \t]+{{NUMBER_FLOAT_FORTRAN}}' # Y position
-    - '[ \t]+{{NUMBER_FLOAT_FORTRAN}}' # Z position
-    - '.*\n?' # Optional constraints (like if_pos) and newline
+    - '(?:[ \t]+{{NUMBER_FLOAT_FORTRAN}}){3}' # X, Y, Z coordinates
+    - '(?:(?:[ \t]+{{ESPRESSO_ATOMIC_CONSTRAINT}}){3})?[ \t]*\n?' # Optional 3 constraints (0 or 1) and optional newline
     - ')+' # One or more rows
-    - ')' # End of capturing group 2
+    - ')'
   flags: ["i"]
   params:
     UNIT:
