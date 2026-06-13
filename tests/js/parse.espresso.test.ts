@@ -30,7 +30,7 @@ describe("use espresso regexes", () => {
     );
 
     const file = fs.readFileSync(
-        path.resolve("tests/fixtures/applications/espresso/5.2.1/pw.x"),
+        path.resolve("tests/fixtures/applications/espresso/pw.in"),
         "utf8",
     );
 
