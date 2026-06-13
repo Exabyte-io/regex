@@ -1,7 +1,12 @@
 import { expect } from "chai";
 import * as path from "path";
 
-import { buildRegexSchema, getAllFilePaths, loadRegexYAMLs } from "../../src/js/functions";
+import {
+    buildRegexSchema,
+    getAllFilePaths,
+    loadRegexYAMLs,
+    interpolatePrimitives,
+} from "../../src/js/functions";
 
 const REFERENCE_PATH_TO_PWIN_YML = path.join(
     __dirname,
@@ -28,7 +33,7 @@ const REFERENCE_YAML_CONTENT = {
             params: {
                 UNIT: ["alat", "bohr", "angstrom"],
             },
-            regex: "CELL_PARAMETERS\\s*[{(]?\\s*({{UNIT}})?\\s*[)}]?\\s*\\n([ \\t]*{{NUMBER_FLOAT_FORTRAN}}[ \\t]+{{NUMBER_FLOAT_FORTRAN}}[ \\t]+{{NUMBER_FLOAT_FORTRAN}}[ \\t]*\\n?){3})",
+            regex: "CELL_PARAMETERS\\s*[{(]?\\s*({{UNIT}})?\\s*[)}]?\\s*\\n([ \\t]*[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?[ \\t]+[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?[ \\t]+[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?[ \\t]*\\n?){3})",
         },
         kv_pair: {
             flags: ["g", "i", "m"],
@@ -97,10 +102,27 @@ describe("build schema from assets tests", () => {
         );
     });
 
-    it("should load Regex YAML", () => {
+    it("should load Regex YAML and interpolate primitives", () => {
         const regexObject = loadRegexYAMLs(REFERENCE_PATH_TO_PWIN_YML);
+
+        const primitivesPath = path.join(
+            __dirname,
+            "..",
+            "..",
+            "src",
+            "assets",
+            "file",
+            "primitives.yml",
+        );
+        const primitivesObject = loadRegexYAMLs(primitivesPath);
+
+        const interpolatedContent = interpolatePrimitives(
+            regexObject.parsedContent,
+            primitivesObject.parsedContent as Record<string, string>,
+        );
+
         expect(regexObject.filePath).to.be.eql(REFERENCE_PATH_TO_PWIN_YML);
-        expect(regexObject.parsedContent).to.be.eql(REFERENCE_YAML_CONTENT);
+        expect(interpolatedContent).to.be.eql(REFERENCE_YAML_CONTENT);
     });
 
     it("should build Regex Schema", () => {

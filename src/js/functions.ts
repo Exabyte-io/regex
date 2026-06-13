@@ -64,3 +64,25 @@ export function buildRegexSchema({
 export function writeSchemasToTarget({ filePath, schema }: { filePath: string; schema: object }) {
     fs.writeFileSync(path.resolve(filePath), JSON.stringify(schema) + "\n", "utf8");
 }
+
+export function interpolatePrimitives(schema: any, primitives: Record<string, string>): any {
+    if (typeof schema === "string") {
+        let replaced = schema;
+        for (const [key, value] of Object.entries(primitives)) {
+            const regex = new RegExp(`\\{\\{${key}\\}\\}`, "g");
+            replaced = replaced.replace(regex, value);
+        }
+        return replaced;
+    }
+    if (Array.isArray(schema)) {
+        return schema.map((item) => interpolatePrimitives(item, primitives));
+    }
+    if (typeof schema === "object" && schema !== null) {
+        const result: any = {};
+        for (const [key, value] of Object.entries(schema)) {
+            result[key] = interpolatePrimitives(value, primitives);
+        }
+        return result;
+    }
+    return schema;
+}

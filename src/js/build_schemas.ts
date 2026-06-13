@@ -1,15 +1,17 @@
 import * as fs from "fs";
 import * as path from "path";
+import * as yaml from "js-yaml";
 
 import {
     buildRegexSchema,
     getAllFilePaths,
     loadRegexYAMLs,
     writeSchemasToTarget,
+    interpolatePrimitives,
 } from "./functions";
 
 declare const __dirname: string;
-const regexApplicationSchemas = {};
+let regexApplicationSchemas = {};
 
 const paths = getAllFilePaths();
 
@@ -20,6 +22,11 @@ paths
     .forEach((parsed: any) =>
         buildRegexSchema({ ...parsed, _regexApplicationSchemas: regexApplicationSchemas }),
     );
+
+const primitivesPath = path.join(__dirname, "..", "assets", "file", "primitives.yml");
+const primitivesContent = yaml.load(fs.readFileSync(primitivesPath, "utf8")) as Record<string, string>;
+
+regexApplicationSchemas = interpolatePrimitives(regexApplicationSchemas, primitivesContent);
 
 writeSchemasToTarget({
     schema: regexApplicationSchemas,
