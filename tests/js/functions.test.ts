@@ -91,9 +91,12 @@ const REFERENCE_SCHEMA_CONTENT_INTERMEDIATE = {
 
 const REFERENCE_SCHEMA_CONTENT_FINAL = {
     applications: {
-        espresso: REFERENCE_SCHEMA_CONTENT_INTERMEDIATE,
+        espresso: {
+            pwin: REFERENCE_SCHEMA_CONTENT_INTERMEDIATE,
+        },
     },
 };
+
 describe("build schema from assets tests", () => {
     it("should get all file paths", () => {
         const filePaths: string[] | undefined = [];

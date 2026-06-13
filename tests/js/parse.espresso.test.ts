@@ -26,7 +26,7 @@ function getBlockByName(
 describe("use espresso regexes", () => {
     const espressoNamelistRegex = pointer.get(
         schemas,
-        "/applications/espresso/control/_format/namelist",
+        "/applications/espresso/pwin/control/_format/namelist",
     );
 
     const file = fs.readFileSync(
@@ -91,7 +91,7 @@ describe("use espresso regexes", () => {
 
         const regexObject = pointer.get(
             schemas,
-            "/applications/espresso/control/calculation",
+            "/applications/espresso/pwin/control/calculation",
         );
 
         const regexCalculation = new RegExp(
