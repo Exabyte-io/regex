@@ -18,7 +18,6 @@ const REFERENCE_PATH_TO_PWIN_YML = path.join(
 
 const REFERENCE_ASSETS_PATHS = [
     "file/applications/espresso/pwin.yml",
-    "file/espresso_regex_dict.yml",
     "file/fortran_namelist.yml",
     "file/primitives.yml",
 ];
@@ -28,34 +27,17 @@ const REFERENCE_YAML_CONTENT = {
         { regex: "^&control", flags: ["g", "i"], isRequired: true },
         { regex: "^&electrons", flags: ["g", "i"], isRequired: true },
     ],
-    _regex_dict: {
-        atomic_positions_card: {
-            flags: ["i"],
-            params: {
-                UNIT: ["alat", "bohr", "angstrom", "crystal", "crystal_sg"],
-            },
-            regex: "ATOMIC_POSITIONS\\s*[{(]?\\s*(alat|bohr|angstrom|crystal|crystal_sg)?\\s*[)}]?\\s*\\n((?:[ \\t]*\\w+(?:[ \\t]+[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?){3}(?:(?:[ \\t]+[01]){3})?[ \\t]*\\n?)+)",
+    atomic_positions_card: {
+        flags: ["i"],
+        params: {
+            UNIT: ["alat", "bohr", "angstrom", "crystal", "crystal_sg"],
         },
-        cell_parameters_card: {
-            flags: ["i"],
-            params: { UNIT: ["alat", "bohr", "angstrom"] },
-            regex: "CELL_PARAMETERS\\s*[{(]?\\s*(alat|bohr|angstrom)?\\s*[)}]?\\s*\\n((?:[ \\t]*[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?[ \\t]+[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?[ \\t]+[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?[ \\t]*\\n?){3})",
-        },
-        kv_pair: {
-            flags: ["g", "i", "m"],
-            regex: "(\\w+)\\s*=\\s*([^,\\n/=]+)",
-        },
-        kv_pair_with_index: {
-            flags: ["g", "i", "m"],
-            regex: "(\\w+)\\s*\\(\\s*(\\d+)\\s*\\)\\s*=\\s*([^,\\n/]+)",
-        },
-        namelist_block: {
-            regex: "&(CONTROL|SYSTEM|ELECTRONS|IONS|CELL|FCP|RISM)\\s*([\\s\\S]*?)\\/",
-            flags: ["i", "m"],
-            params: {
-                BLOCK_NAME: ["CONTROL", "SYSTEM", "ELECTRONS", "IONS", "CELL", "FCP", "RISM"],
-            },
-        },
+        regex: "ATOMIC_POSITIONS\\s*[{(]?\\s*(alat|bohr|angstrom|crystal|crystal_sg)?\\s*[)}]?\\s*\\n((?:[ \\t]*\\w+(?:[ \\t]+[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?){3}(?:(?:[ \\t]+[01]){3})?[ \\t]*\\n?)+)",
+    },
+    cell_parameters_card: {
+        flags: ["i"],
+        params: { UNIT: ["alat", "bohr", "angstrom"] },
+        regex: "CELL_PARAMETERS\\s*[{(]?\\s*(alat|bohr|angstrom)?\\s*[)}]?\\s*\\n((?:[ \\t]*[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?[ \\t]+[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?[ \\t]+[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?[ \\t]*\\n?){3})",
     },
     control: {
         _format: {
@@ -70,6 +52,21 @@ const REFERENCE_YAML_CONTENT = {
         calculation: { regex: "calculation\\s*=\\s*'([^']+)'", flags: ["g", "m", "i"] },
         title: { regex: "title\\s*=\\s*'([^']+)'", flags: ["g", "m", "i"] },
         restart_mode: { regex: "restart_mode\\s*=\\s*'([^']+)'", flags: ["g", "m", "i"] },
+    },
+    kv_pair: {
+        flags: ["g", "i", "m"],
+        regex: "(\\w+)\\s*=\\s*([^,\\n/=]+)",
+    },
+    kv_pair_with_index: {
+        flags: ["g", "i", "m"],
+        regex: "(\\w+)\\s*\\(\\s*(\\d+)\\s*\\)\\s*=\\s*([^,\\n/]+)",
+    },
+    namelist_block: {
+        regex: "&(CONTROL|SYSTEM|ELECTRONS|IONS|CELL|FCP|RISM)\\s*([\\s\\S]*?)\\/",
+        flags: ["i", "m"],
+        params: {
+            BLOCK_NAME: ["CONTROL", "SYSTEM", "ELECTRONS", "IONS", "CELL", "FCP", "RISM"],
+        },
     },
 };
 
@@ -101,7 +98,7 @@ describe("build schema from assets tests", () => {
     it("should get all file paths", () => {
         const filePaths: string[] | undefined = [];
         const allPaths = getAllFilePaths(path.join(__dirname, "..", "assets"), filePaths);
-        expect(allPaths.length).to.be.eql(4);
+        expect(allPaths.length).to.be.eql(3);
 
         allPaths.forEach((assetPath, index) =>
             expect(assetPath).to.contain(REFERENCE_ASSETS_PATHS[index]),
