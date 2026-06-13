@@ -65,7 +65,7 @@ import pointer from "json-pointer";
 
 const espressoNamelistRegex = pointer.get(
     schemas,
-    "/applications/espresso/control/_format/namelist",
+    "/applications/espresso/pwin/control/_format/namelist",
 );
 
 // _format/namelist contains regex with template string
@@ -86,7 +86,7 @@ const controlBlock = controlBlocksMatch[0];
 
 const regexObject = pointer.get(
     schemas,
-    "/applications/espresso/control/calculation",
+    "/applications/espresso/pwin/control/calculation",
 );
 const regexCalculation = new RegExp(
     regexObject.regex,
