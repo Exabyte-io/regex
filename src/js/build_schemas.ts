@@ -8,6 +8,7 @@ import {
     loadRegexYAMLs,
     writeSchemasToTarget,
     interpolatePrimitives,
+    interpolateSchemaParams,
 } from "./functions";
 
 declare const __dirname: string;
@@ -26,7 +27,9 @@ paths
 const primitivesPath = path.join(__dirname, "..", "assets", "file", "primitives.yml");
 const primitivesContent = yaml.load(fs.readFileSync(primitivesPath, "utf8")) as Record<string, string>;
 
-regexApplicationSchemas = interpolatePrimitives(regexApplicationSchemas, primitivesContent);
+regexApplicationSchemas = interpolateSchemaParams(
+    interpolatePrimitives(regexApplicationSchemas, primitivesContent),
+);
 
 writeSchemasToTarget({
     schema: regexApplicationSchemas,

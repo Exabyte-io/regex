@@ -25,7 +25,7 @@ cell_parameters_card:
   regex: !listToString
     - CELL_PARAMETERS\s* # Matches the card header "CELL_PARAMETERS" followed by optional whitespace.
     - '[{(]?\s*' # Matches an optional opening brace or parenthesis for the units, followed by optional whitespace.
-    - '({{UNIT}})?' # Capturing group 1: Matches the unit string explicitly defined in params (optional, defaults to alat if missing per espresso docs, but we capture if present).
+    - '{{UNIT}}?' # Capturing group 1: Matches the unit string explicitly defined in params (optional, defaults to alat if missing per espresso docs, but we capture if present).
     - \s*[)}]?\s*\n # Matches optional whitespace, an optional closing brace/parenthesis, optional whitespace, and the required newline character.
     - ( # Start of capturing group 2: Matches the 3x3 matrix of cell vectors.
     - (?: # Start of the non-capturing group representing a single row of 3 numbers.

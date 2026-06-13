@@ -86,3 +86,26 @@ export function interpolatePrimitives(schema: any, primitives: Record<string, st
     }
     return schema;
 }
+
+export function interpolateSchemaParams(schema: any): any {
+    if (Array.isArray(schema)) {
+        return schema.map((item) => interpolateSchemaParams(item));
+    }
+    if (typeof schema === "object" && schema !== null) {
+        const result: any = {};
+        for (const [key, value] of Object.entries(schema)) {
+            result[key] = interpolateSchemaParams(value);
+        }
+
+        if (result.regex && typeof result.regex === "string" && result.params) {
+            for (const [paramKey, paramValues] of Object.entries(result.params)) {
+                if (Array.isArray(paramValues)) {
+                    const replaceRegex = new RegExp(`\\{\\{${paramKey}\\}\\}`, "g");
+                    result.regex = result.regex.replace(replaceRegex, `(${paramValues.join("|")})`);
+                }
+            }
+        }
+        return result;
+    }
+    return schema;
+}

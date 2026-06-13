@@ -6,6 +6,7 @@ import {
     getAllFilePaths,
     loadRegexYAMLs,
     interpolatePrimitives,
+    interpolateSchemaParams,
 } from "../../src/js/functions";
 
 const REFERENCE_PATH_TO_PWIN_YML = path.join(
@@ -30,10 +31,8 @@ const REFERENCE_YAML_CONTENT = {
     _regex_dict: {
         cell_parameters_card: {
             flags: ["i"],
-            params: {
-                UNIT: ["alat", "bohr", "angstrom"],
-            },
-            regex: "CELL_PARAMETERS\\s*[{(]?\\s*({{UNIT}})?\\s*[)}]?\\s*\\n([ \\t]*[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?[ \\t]+[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?[ \\t]+[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?[ \\t]*\\n?){3})",
+            params: { UNIT: ["alat", "bohr", "angstrom"] },
+            regex: "CELL_PARAMETERS\\s*[{(]?\\s*(alat|bohr|angstrom)?\\s*[)}]?\\s*\\n([ \\t]*[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?[ \\t]+[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?[ \\t]+[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?[ \\t]*\\n?){3})",
         },
         kv_pair: {
             flags: ["g", "i", "m"],
@@ -44,7 +43,7 @@ const REFERENCE_YAML_CONTENT = {
             regex: "(\\w+)\\s*\\(\\s*(\\d+)\\s*\\)\\s*=\\s*([^,\\n/]+)",
         },
         namelist_block: {
-            regex: "&{{BLOCK_NAME}}\\s*([\\s\\S]*?)\\/",
+            regex: "&(CONTROL|SYSTEM|ELECTRONS|IONS|CELL|FCP|RISM)\\s*([\\s\\S]*?)\\/",
             flags: ["i", "m"],
             params: {
                 BLOCK_NAME: ["CONTROL", "SYSTEM", "ELECTRONS", "IONS", "CELL", "FCP", "RISM"],
@@ -54,7 +53,7 @@ const REFERENCE_YAML_CONTENT = {
     control: {
         _format: {
             namelist: {
-                regex: "(\\$|&){{BLOCK_NAME}}\\n(?:\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+)(?:\\n\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+))*)?\\s*\\/",
+                regex: "(\\$|&)(CONTROL|ELECTRONS|IONS|CELL|SYSTEM)\\n(?:\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+)(?:\\n\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+))*)?\\s*\\/",
                 flags: ["g", "m"],
                 params: {
                     BLOCK_NAME: ["CONTROL", "ELECTRONS", "IONS", "CELL", "SYSTEM"],
@@ -102,24 +101,17 @@ describe("build schema from assets tests", () => {
         );
     });
 
-    it("should load Regex YAML and interpolate primitives", () => {
+    it("should load Regex YAML and interpolate primitives and params", () => {
         const regexObject = loadRegexYAMLs(REFERENCE_PATH_TO_PWIN_YML);
 
-        const primitivesPath = path.join(
-            __dirname,
-            "..",
-            "..",
-            "src",
-            "assets",
-            "file",
-            "primitives.yml",
-        );
+        const primitivesPath = path.join(__dirname, "..", "..", "src", "assets", "file", "primitives.yml");
         const primitivesObject = loadRegexYAMLs(primitivesPath);
 
-        const interpolatedContent = interpolatePrimitives(
+        let interpolatedContent = interpolatePrimitives(
             regexObject.parsedContent,
             primitivesObject.parsedContent as Record<string, string>,
         );
+        interpolatedContent = interpolateSchemaParams(interpolatedContent);
 
         expect(regexObject.filePath).to.be.eql(REFERENCE_PATH_TO_PWIN_YML);
         expect(interpolatedContent).to.be.eql(REFERENCE_YAML_CONTENT);
