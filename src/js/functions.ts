@@ -53,12 +53,9 @@ export function buildRegexSchema({
         console.log(`filePath ${filePath} matched ${categoryMatch[1]} FileRegexp`);
 
         const directoryPath = path.dirname(filePath);
-        const fileName = path.basename(filePath, ".yml");
-
         const [, applicationSubPath] = directoryPath.split("/file");
-        const fullPointerPath = `${applicationSubPath}/${fileName}`;
 
-        pointer.set(_regexApplicationSchemas, fullPointerPath, parsedContent);
+        pointer.set(_regexApplicationSchemas, applicationSubPath, parsedContent);
     }
 
     return _regexApplicationSchemas;

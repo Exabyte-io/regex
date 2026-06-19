@@ -9,15 +9,16 @@ import {
     interpolateSchemaParams,
 } from "../../src/js/functions";
 
-const REFERENCE_PATH_TO_PWIN_YML = path.join(
+const REFERENCE_PATH_TO_PWX_STDIN_YML = path.join(
     __dirname,
     "..",
     "assets",
-    "file/applications/espresso/pwin.yml",
+    "file/applications/espresso/5.2.1/pw.x/stdin.yml",
 );
 
 const REFERENCE_ASSETS_PATHS = [
-    "file/applications/espresso/pwin.yml",
+    "file/applications/espresso/5.2.1/pw.x/stdin.yml",
+    "file/applications/espresso/7.1/pw.x/stdin.yml",
     "file/fortran_namelist.yml",
     "file/primitives.yml",
 ];
@@ -92,7 +93,9 @@ const REFERENCE_SCHEMA_CONTENT_INTERMEDIATE = {
 const REFERENCE_SCHEMA_CONTENT_FINAL = {
     applications: {
         espresso: {
-            pwin: REFERENCE_SCHEMA_CONTENT_INTERMEDIATE,
+            "5.2.1": {
+                "pw.x": REFERENCE_SCHEMA_CONTENT_INTERMEDIATE,
+            },
         },
     },
 };
@@ -101,7 +104,7 @@ describe("build schema from assets tests", () => {
     it("should get all file paths", () => {
         const filePaths: string[] | undefined = [];
         const allPaths = getAllFilePaths(path.join(__dirname, "..", "assets"), filePaths);
-        expect(allPaths.length).to.be.eql(3);
+        expect(allPaths.length).to.be.eql(4);
 
         allPaths.forEach((assetPath, index) =>
             expect(assetPath).to.contain(REFERENCE_ASSETS_PATHS[index]),
@@ -109,7 +112,7 @@ describe("build schema from assets tests", () => {
     });
 
     it("should load Regex YAML and interpolate primitives and params", () => {
-        const regexObject = loadRegexYAMLs(REFERENCE_PATH_TO_PWIN_YML);
+        const regexObject = loadRegexYAMLs(REFERENCE_PATH_TO_PWX_STDIN_YML);
 
         const primitivesPath = path.join(
             __dirname,
@@ -128,14 +131,14 @@ describe("build schema from assets tests", () => {
         );
         interpolatedContent = interpolateSchemaParams(interpolatedContent);
 
-        expect(regexObject.filePath).to.be.eql(REFERENCE_PATH_TO_PWIN_YML);
+        expect(regexObject.filePath).to.be.eql(REFERENCE_PATH_TO_PWX_STDIN_YML);
         expect(interpolatedContent).to.be.eql(REFERENCE_YAML_CONTENT);
     });
 
     it("should build Regex Schema", () => {
         const _regexApplicationSchemas = {};
         const updatedSchemas = buildRegexSchema({
-            filePath: REFERENCE_PATH_TO_PWIN_YML,
+            filePath: REFERENCE_PATH_TO_PWX_STDIN_YML,
             parsedContent: REFERENCE_SCHEMA_CONTENT_INTERMEDIATE,
             _regexApplicationSchemas,
         });
