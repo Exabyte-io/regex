@@ -21,7 +21,7 @@ Or using npm:
 
 3. Use regex schemas:
     ```javascript
-   const calculationPattern = regexSchemas.espresso.calculation;
+   const calculationPattern = regexSchemas.espresso["5.2.1"]["pw.x"].calculation;
    const regex = new RegExp(calculationPattern.regex, calculationPattern.flags.join("));
    ```
 
@@ -40,7 +40,7 @@ npm run build:schemas:dev
 ```
 
 ## Add new regex schemas
-1. Add new yamls for `stdin` and `stdout` to `assets/file/applications/<application_name>/`
+1. Add new yamls for `stdin` and `stdout` to `assets/file/applications/<application_name>/<application_version>/<unit_name>/`
 2. Run `npm run build:schemas:dev` to generate new regex schemas for dev
 3. Add tests for newly added regex schemas
 
@@ -65,7 +65,7 @@ import pointer from "json-pointer";
 
 const espressoNamelistRegex = pointer.get(
     schemas,
-    "/applications/espresso/pwin/control/_format/namelist",
+    "/applications/espresso/5.2.1/pw.x/control/_format/namelist",
 );
 
 // _format/namelist contains regex with template string
@@ -86,7 +86,7 @@ const controlBlock = controlBlocksMatch[0];
 
 const regexObject = pointer.get(
     schemas,
-    "/applications/espresso/pwin/control/calculation",
+    "/applications/espresso/5.2.1/pw.x/control/calculation",
 );
 const regexCalculation = new RegExp(
     regexObject.regex,
