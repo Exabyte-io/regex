@@ -21,7 +21,7 @@ Or using npm:
 
 3. Use regex schemas:
     ```javascript
-   const calculationPattern = regexSchemas.espresso["5.2.1"]["pw.x"].calculation;
+   const calculationPattern = regexSchemas.espresso["5.2.1"]["pw.x"]["stdin"].calculation;
    const regex = new RegExp(calculationPattern.regex, calculationPattern.flags.join("));
    ```
 
@@ -65,7 +65,7 @@ import pointer from "json-pointer";
 
 const espressoNamelistRegex = pointer.get(
     schemas,
-    "/applications/espresso/5.2.1/pw.x/control/_format/namelist",
+    "/applications/espresso/5.2.1/pw.x/stdin/control/_format/namelist",
 );
 
 // _format/namelist contains regex with template string
@@ -86,7 +86,7 @@ const controlBlock = controlBlocksMatch[0];
 
 const regexObject = pointer.get(
     schemas,
-    "/applications/espresso/5.2.1/pw.x/control/calculation",
+    "/applications/espresso/5.2.1/pw.x/stdin/control/calculation",
 );
 const regexCalculation = new RegExp(
     regexObject.regex,

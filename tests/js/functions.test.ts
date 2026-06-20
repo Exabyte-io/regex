@@ -94,7 +94,9 @@ const REFERENCE_SCHEMA_CONTENT_FINAL = {
     applications: {
         espresso: {
             "5.2.1": {
-                "pw.x": REFERENCE_SCHEMA_CONTENT_INTERMEDIATE,
+                "pw.x": {
+                    stdin: REFERENCE_SCHEMA_CONTENT_INTERMEDIATE,
+                },
             },
         },
     },
