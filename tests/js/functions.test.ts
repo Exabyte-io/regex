@@ -41,10 +41,10 @@ const REFERENCE_YAML_CONTENT = {
     cell_parameters_card: {
         flags: ["i"],
         params: { UNIT: ["alat", "bohr", "angstrom"] },
-        regex: "CELL_PARAMETERS\\s*[{(]?\\s*(alat|bohr|angstrom)?\\s*[)}]?\\s*\\n((?:[ \\t]*[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?(?:[ \\t]+[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?){2}[ \\t]*\\n?){3})",
+        regex: "CELL_PARAMETERS\\s*[{(]?\\s*(alat|bohr|angstrom)?\\s*[)}]?\\s*\\n((?:[ \\t]*(?P<x>[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?)[ \\t]+(?P<y>[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?)[ \\t]+(?P<z>[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?)[ \\t]*\\n?){3})",
     },
     cell_parameters_row: {
-        regex: "[ \\t]*[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?(?:[ \\t]+[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?){2}[ \\t]*\\n?",
+        regex: "[ \\t]*(?P<x>[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?)[ \\t]+(?P<y>[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?)[ \\t]+(?P<z>[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?)[ \\t]*\\n?",
     },
     control: {
         _format: {

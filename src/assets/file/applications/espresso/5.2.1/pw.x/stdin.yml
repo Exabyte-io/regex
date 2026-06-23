@@ -46,9 +46,10 @@ namelist_block:
 # Single row of three Fortran floats (optional leading whitespace on the first value).
 cell_parameters_row:
   regex: &cell_parameters_row !listToString
-    - '[ \t]*{{NUMBER_FLOAT_FORTRAN}}' # Matches optional leading spaces/tabs and the first numeric value.
-    - '(?:[ \t]+{{NUMBER_FLOAT_FORTRAN}}){2}' # Matches required spacing and the second and third numeric values.
-    - '[ \t]*\n?' # Matches optional trailing spaces/tabs and an optional newline.
+    - '[ \t]*(?P<x>{{NUMBER_FLOAT_FORTRAN}})' # First component
+    - '[ \t]+(?P<y>{{NUMBER_FLOAT_FORTRAN}})' # Second component
+    - '[ \t]+(?P<z>{{NUMBER_FLOAT_FORTRAN}})' # Third component
+    - '[ \t]*\n?' # Optional trailing whitespace and newline
 
 # Parse CELL_PARAMETERS card and its matrix
 cell_parameters_card:
