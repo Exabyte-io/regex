@@ -40,6 +40,9 @@ const REFERENCE_YAML_CONTENT = {
         params: { UNIT: ["alat", "bohr", "angstrom"] },
         regex: "CELL_PARAMETERS\\s*[{(]?\\s*(alat|bohr|angstrom)?\\s*[)}]?\\s*\\n((?:[ \\t]*[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?(?:[ \\t]+[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?){2}[ \\t]*\\n?){3})",
     },
+    cell_parameters_row: {
+        regex: "[ \\t]*[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?(?:[ \\t]+[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?){2}[ \\t]*\\n?",
+    },
     control: {
         _format: {
             namelist: {

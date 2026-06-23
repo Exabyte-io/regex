@@ -43,6 +43,13 @@ namelist_block:
       - FCP
       - RISM
 
+# Single row of three Fortran floats (optional leading whitespace on the first value).
+cell_parameters_row:
+  regex: &cell_parameters_row !listToString
+    - '[ \t]*{{NUMBER_FLOAT_FORTRAN}}' # Matches optional leading spaces/tabs and the first numeric value.
+    - '(?:[ \t]+{{NUMBER_FLOAT_FORTRAN}}){2}' # Matches required spacing and the second and third numeric values.
+    - '[ \t]*\n?' # Matches optional trailing spaces/tabs and an optional newline.
+
 # Parse CELL_PARAMETERS card and its matrix
 cell_parameters_card:
   regex: !listToString
@@ -52,9 +59,7 @@ cell_parameters_card:
     - '\s*[)}]?\s*\n' # Matches optional whitespace, an optional closing brace/parenthesis, optional whitespace, and the required newline character.
     - '(' # Start of capturing group 2: Matches the 3x3 matrix of cell vectors.
     - '(?:' # Start of the non-capturing group representing a single row of 3 numbers.
-    - '[ \t]*{{NUMBER_FLOAT_FORTRAN}}' # Matches optional leading spaces/tabs and the first numeric value.
-    - '(?:[ \t]+{{NUMBER_FLOAT_FORTRAN}}){2}' # Matches required spacing and the second and third numeric values.
-    - '[ \t]*\n?' # Matches optional trailing spaces/tabs and an optional newline.
+    - *cell_parameters_row
     - '){3}' # End of the non-capturing group, repeated exactly 3 times for the 3 lattice vectors.
     - ')' # End of capturing group 2.
   flags: ["i"]
