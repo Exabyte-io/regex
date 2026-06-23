@@ -35,6 +35,9 @@ const REFERENCE_YAML_CONTENT = {
         },
         regex: "ATOMIC_POSITIONS\\s*[{(]?\\s*(alat|bohr|angstrom|crystal|crystal_sg)?\\s*[)}]?\\s*\\n((?:[ \\t]*\\w+(?:[ \\t]+[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?){3}(?:(?:[ \\t]+[01]){3})?[ \\t]*\\n?)+)",
     },
+    atomic_positions_row: {
+        regex: "[ \\t]*\\w+(?:[ \\t]+[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?){3}(?:(?:[ \\t]+[01]){3})?[ \\t]*\\n?",
+    },
     cell_parameters_card: {
         flags: ["i"],
         params: { UNIT: ["alat", "bohr", "angstrom"] },

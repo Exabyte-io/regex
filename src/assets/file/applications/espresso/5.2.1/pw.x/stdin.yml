@@ -69,6 +69,13 @@ cell_parameters_card:
       - bohr
       - angstrom
 
+# Single ATOMIC_POSITIONS row: atom symbol, coordinates, and optional constraints.
+atomic_positions_row:
+  regex: &atomic_positions_row !listToString
+    - '[ \t]*\w+' # Atom symbol
+    - '(?:[ \t]+{{NUMBER_FLOAT_FORTRAN}}){3}' # X, Y, Z coordinates
+    - '(?:(?:[ \t]+{{ESPRESSO_ATOMIC_CONSTRAINT}}){3})?[ \t]*\n?' # Optional 3 constraints (0 or 1) and optional newline
+
 # Parse ATOMIC_POSITIONS card and its rows
 atomic_positions_card:
   regex: !listToString
@@ -78,9 +85,7 @@ atomic_positions_card:
     - '\s*[)}]?\s*\n'
     - '('
     - '(?:'
-    - '[ \t]*\w+' # Atom symbol
-    - '(?:[ \t]+{{NUMBER_FLOAT_FORTRAN}}){3}' # X, Y, Z coordinates
-    - '(?:(?:[ \t]+{{ESPRESSO_ATOMIC_CONSTRAINT}}){3})?[ \t]*\n?' # Optional 3 constraints (0 or 1) and optional newline
+    - *atomic_positions_row
     - ')+' # One or more rows
     - ')'
   flags: ["i"]
