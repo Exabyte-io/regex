@@ -50,7 +50,7 @@ const REFERENCE_YAML_CONTENT = {
     control: {
         _format: {
             namelist: {
-                regex: "(\\$|&)(CONTROL|ELECTRONS|IONS|CELL|SYSTEM)\\n(?:\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+)(?:\\n\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+))*)?\\s*\\/",
+                regex: "(\\$|&)(CONTROL|ELECTRONS|IONS|CELL|SYSTEM)\\s*\\n(?:(?:\\s*(\\w+)\\s*=\\s*((?:['\"].*?['\"]|[^,\\n/=]+))|\\s*(\\w+)\\s*\\(\\s*(\\d+)\\s*\\)\\s*=\\s*((?:['\"].*?['\"]|[^,\\n/]+)))\\s*,?\\s*)*\\s*\\/",
                 flags: ["g", "m"],
                 params: {
                     BLOCK_NAME: ["CONTROL", "ELECTRONS", "IONS", "CELL", "SYSTEM"],
