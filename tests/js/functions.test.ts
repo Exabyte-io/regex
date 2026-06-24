@@ -19,6 +19,7 @@ const REFERENCE_PATH_TO_PWX_STDIN_YML = path.join(
 const REFERENCE_ASSETS_PATHS = [
     "file/applications/espresso/5.2.1/pw.x/stdin.yml",
     "file/applications/espresso/7.1/pw.x/stdin.yml",
+    "file/applications/espresso/partials.yml",
     "file/fortran_namelist.yml",
     "file/primitives.yml",
 ];
@@ -59,14 +60,6 @@ const REFERENCE_YAML_CONTENT = {
         calculation: { regex: "calculation\\s*=\\s*'([^']+)'", flags: ["g", "m", "i"] },
         title: { regex: "title\\s*=\\s*'([^']+)'", flags: ["g", "m", "i"] },
         restart_mode: { regex: "restart_mode\\s*=\\s*'([^']+)'", flags: ["g", "m", "i"] },
-    },
-    kv_pair: {
-        flags: ["g", "i", "m"],
-        regex: "(\\w+)\\s*=\\s*([^,\\n/=]+)",
-    },
-    kv_pair_with_index: {
-        flags: ["g", "i", "m"],
-        regex: "(\\w+)\\s*\\(\\s*(\\d+)\\s*\\)\\s*=\\s*([^,\\n/]+)",
     },
     namelist_block: {
         regex: "&(CONTROL|SYSTEM|ELECTRONS|IONS|CELL|FCP|RISM)\\s*([\\s\\S]*?)\\/",
@@ -112,7 +105,7 @@ describe("build schema from assets tests", () => {
     it("should get all file paths", () => {
         const filePaths: string[] | undefined = [];
         const allPaths = getAllFilePaths(path.join(__dirname, "..", "assets"), filePaths);
-        expect(allPaths.length).to.be.eql(4);
+        expect(allPaths.length).to.be.eql(REFERENCE_ASSETS_PATHS.length);
 
         allPaths.forEach((assetPath, index) =>
             expect(assetPath).to.contain(REFERENCE_ASSETS_PATHS[index]),
