@@ -9,7 +9,7 @@ _fingerprints:
 control:
   _format:
     regex: !include src/assets/file/fortran_namelist.yml#/namelist/regex
-    flags: ["g", "i", "m"]
+    flags: !include src/assets/file/fortran_namelist.yml#/namelist/flags
     params:
       BLOCK_NAME:
         - CONTROL
