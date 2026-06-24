@@ -8,7 +8,7 @@ from mat3ra.utils import regex as regex_utils
 
 def test_schemas_espresso_pwx_stdin():
     espresso_namelist_regex_obj = object_utils.get(
-        SCHEMAS, "/applications/espresso/5.2.1/pw.x/stdin/control/_format/namelist"
+        SCHEMAS, "/applications/espresso/5.2.1/pw.x/stdin/control/_format"
     )
 
     # Assuming file content is in a variable named 'file'

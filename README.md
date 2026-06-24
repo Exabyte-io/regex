@@ -68,7 +68,7 @@ const espressoNamelistRegex = pointer.get(
     "/applications/espresso/5.2.1/pw.x/stdin/control/_format",
 );
 
-// _format/namelist contains regex with template string
+// _format contains regex with template string
 // available templates for regex should be enumerated in params section
 // name of param define template string to replace
 // possible values will be enumerated as value of param
