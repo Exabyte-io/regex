@@ -17,9 +17,10 @@ namelist:
     flags: ["g", "m"]
     params:
       BLOCK_NAME:
-        - "CONTROL"
-        - "ELECTRONS"
-        - "IONS"
-        - "CELL"
-        - "SYSTEM"
-  
+        - CONTROL
+        - SYSTEM
+        - ELECTRONS
+        - IONS
+        - CELL
+        - FCP
+        - RISM
