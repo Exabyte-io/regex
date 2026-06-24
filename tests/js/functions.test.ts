@@ -36,16 +36,10 @@ const REFERENCE_YAML_CONTENT = {
         },
         regex: "ATOMIC_POSITIONS\\s*[{(]?\\s*(alat|bohr|angstrom|crystal|crystal_sg)?\\s*[)}]?\\s*\\n((?:[ \\t]*(?P<symbol>\\w+)[ \\t]+(?P<x>[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?)[ \\t]+(?P<y>[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?)[ \\t]+(?P<z>[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?)(?:(?:[ \\t]+[01]){3})?[ \\t]*\\n?)+)",
     },
-    atomic_positions_row: {
-        regex: "[ \\t]*(?P<symbol>\\w+)[ \\t]+(?P<x>[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?)[ \\t]+(?P<y>[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?)[ \\t]+(?P<z>[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?)(?:(?:[ \\t]+[01]){3})?[ \\t]*\\n?",
-    },
     cell_parameters_card: {
         flags: ["i"],
         params: { UNIT: ["alat", "bohr", "angstrom"] },
         regex: "CELL_PARAMETERS\\s*[{(]?\\s*(alat|bohr|angstrom)?\\s*[)}]?\\s*\\n((?:[ \\t]*(?P<x>[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?)[ \\t]+(?P<y>[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?)[ \\t]+(?P<z>[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?)[ \\t]*\\n?){3})",
-    },
-    cell_parameters_row: {
-        regex: "[ \\t]*(?P<x>[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?)[ \\t]+(?P<y>[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?)[ \\t]+(?P<z>[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?)[ \\t]*\\n?",
     },
     control: {
         _format: {

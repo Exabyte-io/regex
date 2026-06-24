@@ -8,3 +8,20 @@ kv_pair:
 kv_pair_with_index:
   regex: '(\w+)\s*\(\s*(\d+)\s*\)\s*=\s*((?:[''"].*?[''"]|[^,\n/]+))'
   flags: ["g", "i", "m"]
+
+# Single row of three Fortran floats (optional leading whitespace on the first value).
+cell_parameters_row:
+  regex: !listToString
+    - '[ \t]*(?P<x>{{NUMBER_FLOAT_FORTRAN}})' # First component
+    - '[ \t]+(?P<y>{{NUMBER_FLOAT_FORTRAN}})' # Second component
+    - '[ \t]+(?P<z>{{NUMBER_FLOAT_FORTRAN}})' # Third component
+    - '[ \t]*\n?' # Optional trailing whitespace and newline
+
+# Single ATOMIC_POSITIONS row: atom symbol, coordinates, and optional constraints.
+atomic_positions_row:
+  regex: &atomic_positions_row !listToString
+    - '[ \t]*(?P<symbol>\w+)' # Atom symbol
+    - '[ \t]+(?P<x>{{NUMBER_FLOAT_FORTRAN}})' # X coordinate
+    - '[ \t]+(?P<y>{{NUMBER_FLOAT_FORTRAN}})' # Y coordinate
+    - '[ \t]+(?P<z>{{NUMBER_FLOAT_FORTRAN}})' # Z coordinate
+    - '(?:(?:[ \t]+{{ESPRESSO_ATOMIC_CONSTRAINT}}){3})?[ \t]*\n?' # Optional 3 constraints (0 or 1) and optional newline

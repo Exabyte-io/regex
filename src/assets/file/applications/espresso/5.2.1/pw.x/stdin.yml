@@ -18,14 +18,6 @@ control:
     regex: restart_mode\s*=\s*'([^']+)'
     flags: [ "g", "m", "i" ]
 
-# Single row of three Fortran floats (optional leading whitespace on the first value).
-cell_parameters_row:
-  regex: &cell_parameters_row !listToString
-    - '[ \t]*(?P<x>{{NUMBER_FLOAT_FORTRAN}})' # First component
-    - '[ \t]+(?P<y>{{NUMBER_FLOAT_FORTRAN}})' # Second component
-    - '[ \t]+(?P<z>{{NUMBER_FLOAT_FORTRAN}})' # Third component
-    - '[ \t]*\n?' # Optional trailing whitespace and newline
-
 # Parse CELL_PARAMETERS card and its matrix
 cell_parameters_card:
   regex: !listToString
@@ -35,7 +27,7 @@ cell_parameters_card:
     - '\s*[)}]?\s*\n' # Matches optional whitespace, an optional closing brace/parenthesis, optional whitespace, and the required newline character.
     - '(' # Start of capturing group 2: Matches the 3x3 matrix of cell vectors.
     - '(?:' # Start of the non-capturing group representing a single row of 3 numbers.
-    - *cell_parameters_row
+    - !include src/assets/file/applications/espresso/partials.yml#/cell_parameters_row/regex
     - '){3}' # End of the non-capturing group, repeated exactly 3 times for the 3 lattice vectors.
     - ')' # End of capturing group 2.
   flags: ["i"]
@@ -44,15 +36,6 @@ cell_parameters_card:
       - alat
       - bohr
       - angstrom
-
-# Single ATOMIC_POSITIONS row: atom symbol, coordinates, and optional constraints.
-atomic_positions_row:
-  regex: &atomic_positions_row !listToString
-    - '[ \t]*(?P<symbol>\w+)' # Atom symbol
-    - '[ \t]+(?P<x>{{NUMBER_FLOAT_FORTRAN}})' # X coordinate
-    - '[ \t]+(?P<y>{{NUMBER_FLOAT_FORTRAN}})' # Y coordinate
-    - '[ \t]+(?P<z>{{NUMBER_FLOAT_FORTRAN}})' # Z coordinate
-    - '(?:(?:[ \t]+{{ESPRESSO_ATOMIC_CONSTRAINT}}){3})?[ \t]*\n?' # Optional 3 constraints (0 or 1) and optional newline
 
 # Parse ATOMIC_POSITIONS card and its rows
 atomic_positions_card:
@@ -63,7 +46,7 @@ atomic_positions_card:
     - '\s*[)}]?\s*\n'
     - '('
     - '(?:'
-    - *atomic_positions_row
+    - !include src/assets/file/applications/espresso/partials.yml#/atomic_positions_row/regex
     - ')+' # One or more rows
     - ')'
   flags: ["i"]
