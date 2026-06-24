@@ -18,20 +18,6 @@ control:
     regex: restart_mode\s*=\s*'([^']+)'
     flags: [ "g", "m", "i" ]
 
-# Captures generic namelist block content between `&BLOCK_NAME` and `/`
-namelist_block:
-  regex: "&{{BLOCK_NAME}}\\s*([\\s\\S]*?)\\/"
-  flags: ["i", "m"]
-  params:
-    BLOCK_NAME:
-      - CONTROL
-      - SYSTEM
-      - ELECTRONS
-      - IONS
-      - CELL
-      - FCP
-      - RISM
-
 # Single row of three Fortran floats (optional leading whitespace on the first value).
 cell_parameters_row:
   regex: &cell_parameters_row !listToString

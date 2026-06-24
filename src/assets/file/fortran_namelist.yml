@@ -24,3 +24,17 @@ namelist:
         - CELL
         - FCP
         - RISM
+
+# Captures generic namelist block content between `&BLOCK_NAME` and `/`
+# namelist_block:
+#   regex: "&{{BLOCK_NAME}}\\s*([\\s\\S]*?)\\/"
+#   flags: ["g", "i", "m"]
+#   params:
+#     BLOCK_NAME:
+#       - CONTROL
+#       - SYSTEM
+#       - ELECTRONS
+#       - IONS
+#       - CELL
+#       - FCP
+#       - RISM

@@ -60,14 +60,7 @@ const REFERENCE_YAML_CONTENT = {
         calculation: { regex: "calculation\\s*=\\s*'([^']+)'", flags: ["g", "m", "i"] },
         title: { regex: "title\\s*=\\s*'([^']+)'", flags: ["g", "m", "i"] },
         restart_mode: { regex: "restart_mode\\s*=\\s*'([^']+)'", flags: ["g", "m", "i"] },
-    },
-    namelist_block: {
-        regex: "&(CONTROL|SYSTEM|ELECTRONS|IONS|CELL|FCP|RISM)\\s*([\\s\\S]*?)\\/",
-        flags: ["i", "m"],
-        params: {
-            BLOCK_NAME: ["CONTROL", "SYSTEM", "ELECTRONS", "IONS", "CELL", "FCP", "RISM"],
-        },
-    },
+    }
 };
 
 const REFERENCE_SCHEMA_CONTENT_INTERMEDIATE = {
