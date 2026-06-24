@@ -18,6 +18,9 @@ control:
     regex: restart_mode\s*=\s*'([^']+)'
     flags: [ "g", "m", "i" ]
 
+system:
+  _format: !include src/assets/file/fortran_namelist.yml
+
 # Parse CELL_PARAMETERS card and its matrix
 cell_parameters_card:
   regex: !listToString
