@@ -14,7 +14,7 @@ namelist:
       # 4. Close OUTER group and repeat zero or more times
       - ')*'
       - '\s*\/'
-    flags: ["g", "m"]
+    flags: ["g", "i", "m"]
     params:
       BLOCK_NAME:
         - CONTROL
@@ -27,7 +27,7 @@ namelist:
 
 # Captures generic namelist block content between `&BLOCK_NAME` and `/`
 # namelist_block:
-#   regex: "&{{BLOCK_NAME}}\\s*([\\s\\S]*?)\\/"
+#   regex: "[$&]{{BLOCK_NAME}}\\s*([\\s\\S]*?)\\/"
 #   flags: ["g", "i", "m"]
 #   params:
 #     BLOCK_NAME:
