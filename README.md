@@ -65,7 +65,7 @@ import pointer from "json-pointer";
 
 const espressoNamelistRegex = pointer.get(
     schemas,
-    "/applications/espresso/5.2.1/pw.x/stdin/control/_format/namelist",
+    "/applications/espresso/5.2.1/pw.x/stdin/control/_format",
 );
 
 // _format/namelist contains regex with template string

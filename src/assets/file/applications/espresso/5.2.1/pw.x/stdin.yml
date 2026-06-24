@@ -7,7 +7,12 @@ _fingerprints:
     isRequired: true
 
 control:
-  _format: !include src/assets/file/fortran_namelist.yml # matching generic namelist
+  _format:
+    regex: !include src/assets/file/fortran_namelist.yml#/namelist/regex
+    flags: ["g", "i", "m"]
+    params:
+      BLOCK_NAME:
+        - CONTROL
   calculation:
     regex: calculation\s*=\s*'([^']+)'
     flags: [ "g", "m", "i" ]
@@ -19,7 +24,20 @@ control:
     flags: [ "g", "m", "i" ]
 
 system:
-  _format: !include src/assets/file/fortran_namelist.yml
+  _format:
+    regex: !include src/assets/file/fortran_namelist.yml#/namelist/regex
+    flags: !include src/assets/file/fortran_namelist.yml#/namelist/flags
+    params:
+      BLOCK_NAME:
+        - SYSTEM
+
+electrons:
+  _format:
+    regex: !include src/assets/file/fortran_namelist.yml#/namelist/regex
+    flags: !include src/assets/file/fortran_namelist.yml#/namelist/flags
+    params:
+      BLOCK_NAME:
+        - ELECTRONS
 
 # Parse CELL_PARAMETERS card and its matrix
 cell_parameters_card:

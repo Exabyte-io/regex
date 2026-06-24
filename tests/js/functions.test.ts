@@ -43,12 +43,10 @@ const REFERENCE_YAML_CONTENT = {
     },
     control: {
         _format: {
-            namelist: {
-                regex: "(\\$|&)(CONTROL|SYSTEM|ELECTRONS|IONS|CELL|FCP|RISM)\\s*\\n(?:(?:\\s*(\\w+)\\s*=\\s*((?:['\"].*?['\"]|[^,\\n/=]+))|\\s*(\\w+)\\s*\\(\\s*(\\d+)\\s*\\)\\s*=\\s*((?:['\"].*?['\"]|[^,\\n/]+)))\\s*,?\\s*)*\\s*\\/",
-                flags: ["g", "i", "m"],
-                params: {
-                    BLOCK_NAME: ["CONTROL", "SYSTEM", "ELECTRONS", "IONS", "CELL", "FCP", "RISM"],
-                },
+            regex: "(\\$|&)(CONTROL)\\s*\\n(?:(?:\\s*(\\w+)\\s*=\\s*((?:['\"].*?['\"]|[^,\\n/=]+))|\\s*(\\w+)\\s*\\(\\s*(\\d+)\\s*\\)\\s*=\\s*((?:['\"].*?['\"]|[^,\\n/]+)))\\s*,?\\s*)*\\s*\\/",
+            flags: ["g", "i", "m"],
+            params: {
+                BLOCK_NAME: ["CONTROL"],
             },
         },
         calculation: { regex: "calculation\\s*=\\s*'([^']+)'", flags: ["g", "m", "i"] },
@@ -57,13 +55,20 @@ const REFERENCE_YAML_CONTENT = {
     },
     system: {
         _format: {
-            namelist: {
-                flags: ["g", "i", "m"],
-                params: {
-                    BLOCK_NAME: ["CONTROL", "SYSTEM", "ELECTRONS", "IONS", "CELL", "FCP", "RISM"],
-                },
-                regex: "(\\$|&)(CONTROL|SYSTEM|ELECTRONS|IONS|CELL|FCP|RISM)\\s*\\n(?:(?:\\s*(\\w+)\\s*=\\s*((?:['\"].*?['\"]|[^,\\n/=]+))|\\s*(\\w+)\\s*\\(\\s*(\\d+)\\s*\\)\\s*=\\s*((?:['\"].*?['\"]|[^,\\n/]+)))\\s*,?\\s*)*\\s*\\/",
+            flags: ["g", "i", "m"],
+            params: {
+                BLOCK_NAME: ["SYSTEM"],
             },
+            regex: "(\\$|&)(SYSTEM)\\s*\\n(?:(?:\\s*(\\w+)\\s*=\\s*((?:['\"].*?['\"]|[^,\\n/=]+))|\\s*(\\w+)\\s*\\(\\s*(\\d+)\\s*\\)\\s*=\\s*((?:['\"].*?['\"]|[^,\\n/]+)))\\s*,?\\s*)*\\s*\\/",
+        },
+    },
+    electrons: {
+        _format: {
+            flags: ["g", "i", "m"],
+            params: {
+                BLOCK_NAME: ["ELECTRONS"],
+            },
+            regex: "(\\$|&)(ELECTRONS)\\s*\\n(?:(?:\\s*(\\w+)\\s*=\\s*((?:['\"].*?['\"]|[^,\\n/=]+))|\\s*(\\w+)\\s*\\(\\s*(\\d+)\\s*\\)\\s*=\\s*((?:['\"].*?['\"]|[^,\\n/]+)))\\s*,?\\s*)*\\s*\\/",
         },
     },
 };

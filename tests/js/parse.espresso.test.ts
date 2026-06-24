@@ -26,7 +26,7 @@ function getBlockByName(
 describe("use espresso regexes", () => {
     const espressoNamelistRegex = pointer.get(
         schemas,
-        "/applications/espresso/5.2.1/pw.x/stdin/control/_format/namelist",
+        "/applications/espresso/5.2.1/pw.x/stdin/control/_format",
     );
 
     const file = fs.readFileSync(
@@ -60,12 +60,16 @@ describe("use espresso regexes", () => {
     });
 
     it("should get electrons block", () => {
-        const electornsBlockRegex = new RegExp(
-            espressoNamelistRegex.regex,
-            espressoNamelistRegex.flags.join(""),
+        const electronsSchema = pointer.get(
+            schemas,
+            "/applications/espresso/5.2.1/pw.x/stdin/electrons/_format",
         );
 
-        // Fetch the block by its explicit name
+        const electornsBlockRegex = new RegExp(
+            electronsSchema.regex,
+            electronsSchema.flags.join(""),
+        );
+
         const electronsBlock = getBlockByName(file, electornsBlockRegex, "ELECTRONS");
 
         expect(electronsBlock).to.not.be.undefined;
