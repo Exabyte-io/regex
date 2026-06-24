@@ -1,10 +1,10 @@
 # Parse standard key=value pairs
 kv_pair:
-  regex: '(\w+)\s*=\s*([^,\n/=]+)'
+  regex: '(\w+)\s*=\s*((?:[''"].*?[''"]|[^,\n/=]+))'
   flags: ["g", "i", "m"]
 
 # Parse Fortran indexed array syntax [e.g., celldm(1)=10.0, starting_magnetization(2)=0.5]
 # regex keys above cannot match these because '(' follows the name instead of '='.
 kv_pair_with_index:
-  regex: '(\w+)\s*\(\s*(\d+)\s*\)\s*=\s*([^,\n/]+)'
+  regex: '(\w+)\s*\(\s*(\d+)\s*\)\s*=\s*((?:[''"].*?[''"]|[^,\n/]+))'
   flags: ["g", "i", "m"]
