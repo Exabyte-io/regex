@@ -3,7 +3,7 @@ name = "mat3ra-regex"
 dynamic = ["version"]
 description = "Mat3ra Regex."
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 license = { file = "LICENSE.md" }
 authors = [
     { name = "Exabyte Inc.", email = "info@mat3ra.com" }
@@ -60,7 +60,7 @@ where = ["src/py"]
 
 [tool.black]
 line-length = 120
-target-version = ['py38']
+target-version = ['py310']
 # 'extend-exclude' excludes files or directories in addition to the defaults
 extend-exclude = '''
 (
@@ -75,7 +75,7 @@ extend-exclude = [
     "src/js"
 ]
 line-length = 120
-target-version = "py38"
+target-version = "py310"
 
 [tool.ruff.per-file-ignores]
 "__init__.py" = ["F401"]
