@@ -5,9 +5,9 @@ namelist:
       - '(?:'
       # 2. INNER group: handles the OR logic between standard KV and indexed KV
       - '(?:\s*'
-      - !include src/assets/file/applications/espresso/partials.yml#/kv_pair/regex
+      - !include src/assets/file/shared.yml#/kv_pair/regex
       - '|\s*'
-      - !include src/assets/file/applications/espresso/partials.yml#/kv_pair_with_index/regex
+      - !include src/assets/file/shared.yml#/kv_pair_with_index/regex
       - ')' # closes the INNER group
       # 3. Consume the optional comma and whitespace
       - '\s*,?\s*'

@@ -22,6 +22,7 @@ const REFERENCE_ASSETS_PATHS = [
     "file/applications/espresso/partials.yml",
     "file/fortran_namelist.yml",
     "file/primitives.yml",
+    "file/shared.yml",
 ];
 
 const REFERENCE_YAML_CONTENT = {
