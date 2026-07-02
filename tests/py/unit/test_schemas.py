@@ -17,7 +17,7 @@ def test_schemas_espresso_pwx_stdin():
     espresso_namelist_regex = espresso_namelist_regex_obj["regex"].replace("{{BLOCK_NAME}}", "CONTROL")
 
     control_block_regex = re.compile(
-        espresso_namelist_regex.encode().decode("unicode_escape"),
+        espresso_namelist_regex,
         regex_utils.convert_js_flags_to_python(espresso_namelist_regex_obj["flags"]),
     )
 
