@@ -34,7 +34,6 @@ tests = [
     "pytest",
     "pytest-cov",
     "mat3ra-fixtures",
-    "mat3ra-utils @ git+https://github.com/mat3ra/utils.git@ab9f4971c3625f39e17798e2762889a21b345edf",
 ]
 all = [
     "mat3ra-regex[dev]",
