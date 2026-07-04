@@ -32,14 +32,14 @@
         "@babel/preset-typescript": "^7.29.7",
         "@babel/register": "^7.29.7",
         "@babel/runtime-corejs3": "^7.29.7",
-        "@types/node": "^20.19.42",
-        "js-yaml": "^4.2.0",
+        "@types/node": "^20.19.43",
+        "js-yaml": "^4.3.0",
         "json-pointer": "^0.6.2"
     },
     "devDependencies": {
-        "@exabyte-io/eslint-config": "^2025.5.13-0",
+        "@exabyte-io/eslint-config": "^2026.7.3-0",
         "@mat3ra/code": "^2026.5.27-0",
-        "@mat3ra/esse": "^2026.6.5-0",
+        "@mat3ra/esse": "^2026.6.30-0",
         "@mat3ra/tsconfig": "^2024.6.3-0",
         "@types/chai": "^4.3.20",
         "@types/json-pointer": "^1.0.34",
