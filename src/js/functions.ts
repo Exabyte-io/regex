@@ -53,9 +53,12 @@ export function buildRegexSchema({
         console.log(`filePath ${filePath} matched ${categoryMatch[1]} FileRegexp`);
 
         const directoryPath = path.dirname(filePath);
-        const [, applicationSubPath] = directoryPath.split("/file");
+        const fileName = path.basename(filePath, ".yml");
 
-        pointer.set(_regexApplicationSchemas, applicationSubPath, parsedContent);
+        const [, applicationSubPath] = directoryPath.split("/file");
+        const fullPointerPath = `${applicationSubPath}/${fileName}`;
+
+        pointer.set(_regexApplicationSchemas, fullPointerPath, parsedContent);
     }
 
     return _regexApplicationSchemas;
@@ -63,4 +66,49 @@ export function buildRegexSchema({
 
 export function writeSchemasToTarget({ filePath, schema }: { filePath: string; schema: object }) {
     fs.writeFileSync(path.resolve(filePath), JSON.stringify(schema) + "\n", "utf8");
+}
+
+export function interpolatePrimitives(schema: any, primitives: Record<string, string>): any {
+    if (typeof schema === "string") {
+        let replaced = schema;
+        for (const [key, value] of Object.entries(primitives)) {
+            const regex = new RegExp(`\\{\\{${key}\\}\\}`, "g");
+            replaced = replaced.replace(regex, value);
+        }
+        return replaced;
+    }
+    if (Array.isArray(schema)) {
+        return schema.map((item) => interpolatePrimitives(item, primitives));
+    }
+    if (typeof schema === "object" && schema !== null) {
+        const result: any = {};
+        for (const [key, value] of Object.entries(schema)) {
+            result[key] = interpolatePrimitives(value, primitives);
+        }
+        return result;
+    }
+    return schema;
+}
+
+export function interpolateSchemaParams(schema: any): any {
+    if (Array.isArray(schema)) {
+        return schema.map((item) => interpolateSchemaParams(item));
+    }
+    if (typeof schema === "object" && schema !== null) {
+        const result: any = {};
+        for (const [key, value] of Object.entries(schema)) {
+            result[key] = interpolateSchemaParams(value);
+        }
+
+        if (result.regex && typeof result.regex === "string" && result.params) {
+            for (const [paramKey, paramValues] of Object.entries(result.params)) {
+                if (Array.isArray(paramValues)) {
+                    const replaceRegex = new RegExp(`\\{\\{${paramKey}\\}\\}`, "g");
+                    result.regex = result.regex.replace(replaceRegex, `(${paramValues.join("|")})`);
+                }
+            }
+        }
+        return result;
+    }
+    return schema;
 }

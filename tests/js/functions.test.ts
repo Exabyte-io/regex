@@ -1,7 +1,13 @@
 import { expect } from "chai";
 import * as path from "path";
 
-import { buildRegexSchema, getAllFilePaths, loadRegexYAMLs } from "../../src/js/functions";
+import {
+    buildRegexSchema,
+    getAllFilePaths,
+    loadRegexYAMLs,
+    interpolatePrimitives,
+    interpolateSchemaParams,
+} from "../../src/js/functions";
 
 const REFERENCE_PATH_TO_PWX_STDIN_YML = path.join(
     __dirname,
@@ -13,7 +19,10 @@ const REFERENCE_PATH_TO_PWX_STDIN_YML = path.join(
 const REFERENCE_ASSETS_PATHS = [
     "file/applications/espresso/5.2.1/pw.x/stdin.yml",
     "file/applications/espresso/7.1/pw.x/stdin.yml",
+    "file/applications/espresso/partials.yml",
     "file/fortran_namelist.yml",
+    "file/primitives.yml",
+    "file/shared.yml",
 ];
 
 const REFERENCE_YAML_CONTENT = {
@@ -21,19 +30,47 @@ const REFERENCE_YAML_CONTENT = {
         { regex: "^&control", flags: ["g", "i"], isRequired: true },
         { regex: "^&electrons", flags: ["g", "i"], isRequired: true },
     ],
+    atomic_positions_card: {
+        flags: ["i"],
+        params: {
+            UNIT: ["alat", "bohr", "angstrom", "crystal", "crystal_sg"],
+        },
+        regex: "ATOMIC_POSITIONS\\s*[{(]?\\s*(alat|bohr|angstrom|crystal|crystal_sg)?\\s*[)}]?\\s*\\n((?:[ \\t]*(?P<symbol>\\w+)[ \\t]+(?P<x>[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?)[ \\t]+(?P<y>[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?)[ \\t]+(?P<z>[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?)(?:(?:[ \\t]+[01]){3})?[ \\t]*\\n?)+)",
+    },
+    cell_parameters_card: {
+        flags: ["i"],
+        params: { UNIT: ["alat", "bohr", "angstrom"] },
+        regex: "CELL_PARAMETERS\\s*[{(]?\\s*(alat|bohr|angstrom)?\\s*[)}]?\\s*\\n((?:[ \\t]*(?P<x>[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?)[ \\t]+(?P<y>[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?)[ \\t]+(?P<z>[-+]?(?:\\d+\\.\\d*|\\.\\d+|\\d+)(?:[eEdD][-+]?\\d+)?)[ \\t]*\\n?){3})",
+    },
     control: {
         _format: {
-            namelist: {
-                regex: "(\\$|&){{BLOCK_NAME}}\\n(?:\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+)(?:\\n\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+))*)?\\s*\\/",
-                flags: ["g", "m"],
-                params: {
-                    BLOCK_NAME: ["CONTROL", "ELECTRONS", "IONS", "CELL", "SYSTEM"],
-                },
+            regex: "(\\$|&)(CONTROL)\\s*\\n(?:(?:\\s*(\\w+)\\s*=\\s*((?:['\"].*?['\"]|[^,\\n/=]+))|\\s*(\\w+)\\s*\\(\\s*(\\d+)\\s*\\)\\s*=\\s*((?:['\"].*?['\"]|[^,\\n/]+)))\\s*,?\\s*)*\\s*\\/",
+            flags: ["g", "i", "m"],
+            params: {
+                BLOCK_NAME: ["CONTROL"],
             },
         },
         calculation: { regex: "calculation\\s*=\\s*'([^']+)'", flags: ["g", "m", "i"] },
         title: { regex: "title\\s*=\\s*'([^']+)'", flags: ["g", "m", "i"] },
         restart_mode: { regex: "restart_mode\\s*=\\s*'([^']+)'", flags: ["g", "m", "i"] },
+    },
+    system: {
+        _format: {
+            flags: ["g", "i", "m"],
+            params: {
+                BLOCK_NAME: ["SYSTEM"],
+            },
+            regex: "(\\$|&)(SYSTEM)\\s*\\n(?:(?:\\s*(\\w+)\\s*=\\s*((?:['\"].*?['\"]|[^,\\n/=]+))|\\s*(\\w+)\\s*\\(\\s*(\\d+)\\s*\\)\\s*=\\s*((?:['\"].*?['\"]|[^,\\n/]+)))\\s*,?\\s*)*\\s*\\/",
+        },
+    },
+    electrons: {
+        _format: {
+            flags: ["g", "i", "m"],
+            params: {
+                BLOCK_NAME: ["ELECTRONS"],
+            },
+            regex: "(\\$|&)(ELECTRONS)\\s*\\n(?:(?:\\s*(\\w+)\\s*=\\s*((?:['\"].*?['\"]|[^,\\n/=]+))|\\s*(\\w+)\\s*\\(\\s*(\\d+)\\s*\\)\\s*=\\s*((?:['\"].*?['\"]|[^,\\n/]+)))\\s*,?\\s*)*\\s*\\/",
+        },
     },
 };
 
@@ -44,12 +81,10 @@ const REFERENCE_SCHEMA_CONTENT_INTERMEDIATE = {
     ],
     control: {
         _format: {
-            namelist: {
-                regex: "($|&){{BLOCK_NAME}}\\n(?:\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+)(?:\\n\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+))*)?\\s*\\/",
-                flags: ["g", "m", "i"],
-                params: {
-                    BLOCK_NAME: ["CONTROL", "SYSTEM", "ELECTRONS", "IONS", "CELL"],
-                },
+            regex: "(\\$|&)(CONTROL)\\s*\\n(?:(?:\\s*(\\w+)\\s*=\\s*((?:['\"].*?['\"]|[^,\\n/=]+))|\\s*(\\w+)\\s*\\(\\s*(\\d+)\\s*\\)\\s*=\\s*((?:['\"].*?['\"]|[^,\\n/]+)))\\s*,?\\s*)*\\s*\\/",
+            flags: ["g", "i", "m"],
+            params: {
+                BLOCK_NAME: ["CONTROL"],
             },
         },
         calculation: { regex: "calculation\\s*=\\s*'([^']+)'", flags: ["g", "m", "i"] },
@@ -61,53 +96,46 @@ const REFERENCE_SCHEMA_CONTENT_FINAL = {
         espresso: {
             "5.2.1": {
                 "pw.x": {
-                    _fingerprints: [
-                        {
-                            flags: ["g", "i"],
-                            isRequired: true,
-                            regex: "^&control",
-                        },
-                        {
-                            flags: ["g", "i"],
-                            isRequired: true,
-                            regex: "^&electrons",
-                        },
-                    ],
-                    control: {
-                        _format: {
-                            namelist: {
-                                flags: ["g", "m", "i"],
-                                regex: "($|&){{BLOCK_NAME}}\\n(?:\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+)(?:\\n\\s+[A-Za-z_]+\\s*=\\s*(?:['\"].*?['\"]|[^\\/\\n]+))*)?\\s*\\/",
-                                params: {
-                                    BLOCK_NAME: ["CONTROL", "SYSTEM", "ELECTRONS", "IONS", "CELL"],
-                                },
-                            },
-                        },
-                        calculation: {
-                            flags: ["g", "m", "i"],
-                            regex: "calculation\\s*=\\s*'([^']+)'",
-                        },
-                    },
+                    stdin: REFERENCE_SCHEMA_CONTENT_INTERMEDIATE,
                 },
             },
         },
     },
 };
+
 describe("build schema from assets tests", () => {
     it("should get all file paths", () => {
         const filePaths: string[] | undefined = [];
         const allPaths = getAllFilePaths(path.join(__dirname, "..", "assets"), filePaths);
-        expect(allPaths.length).to.be.eql(3);
+        expect(allPaths.length).to.be.eql(REFERENCE_ASSETS_PATHS.length);
 
         allPaths.forEach((assetPath, index) =>
             expect(assetPath).to.contain(REFERENCE_ASSETS_PATHS[index]),
         );
     });
 
-    it("should load Regex YAML", () => {
+    it("should load Regex YAML and interpolate primitives and params", () => {
         const regexObject = loadRegexYAMLs(REFERENCE_PATH_TO_PWX_STDIN_YML);
+
+        const primitivesPath = path.join(
+            __dirname,
+            "..",
+            "..",
+            "src",
+            "assets",
+            "file",
+            "primitives.yml",
+        );
+        const primitivesObject = loadRegexYAMLs(primitivesPath);
+
+        let interpolatedContent = interpolatePrimitives(
+            regexObject.parsedContent,
+            primitivesObject.parsedContent as Record<string, string>,
+        );
+        interpolatedContent = interpolateSchemaParams(interpolatedContent);
+
         expect(regexObject.filePath).to.be.eql(REFERENCE_PATH_TO_PWX_STDIN_YML);
-        expect(regexObject.parsedContent).to.be.eql(REFERENCE_YAML_CONTENT);
+        expect(interpolatedContent).to.be.eql(REFERENCE_YAML_CONTENT);
     });
 
     it("should build Regex Schema", () => {

@@ -1,0 +1,7 @@
+# universal
+NUMBER_INTEGER: '[-+]?\d+$'
+NUMBER_FLOAT: '[-+]?(?:\d+\.\d*|\.\d+|\d+)(?:[eE][-+]?\d+)?'
+NUMBER_FLOAT_FORTRAN: '[-+]?(?:\d+\.\d*|\.\d+|\d+)(?:[eEdD][-+]?\d+)?'
+# espresso related
+ESPRESSO_ELEMENT: '[A-Za-z]{1,2}[0-9]?'
+ESPRESSO_ATOMIC_CONSTRAINT: '[01]'
